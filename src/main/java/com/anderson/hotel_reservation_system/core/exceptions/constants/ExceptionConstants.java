@@ -6,4 +6,5 @@ public class ExceptionConstants {
     public static String NUMBER_ROOM_ALREADY_REGISTERED = "number room already registered.";
     public static String ROOM_NOT_FOUND = "room not found.";
     public static String RESERVATION_NOT_FOUND = "reservation not found.";
+    public static String RESERVATION_STATUS_UNKNOWM = "reservation status unknowm.";
 }
