@@ -8,4 +8,5 @@ public class ExceptionConstants {
     public static final String CHECK_OUT_BEFORE_CHECK_IN = "check-out date must be after check-in date.";
     public static final String RESERVATION_NOT_FOUND = "reservation not found.";
     public static final String RESERVATION_STATUS_UNKNOWM = "reservation status unknowm.";
+    public static final String STATUS_CHANGE_NOT_ALLOWED = "it is not possible to change the status of this reservation.";
 }

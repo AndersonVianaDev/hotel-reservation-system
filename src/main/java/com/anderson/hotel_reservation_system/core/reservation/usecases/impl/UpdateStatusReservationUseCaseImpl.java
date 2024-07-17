@@ -1,5 +1,6 @@
 package com.anderson.hotel_reservation_system.core.reservation.usecases.impl;
 
+import com.anderson.hotel_reservation_system.core.exceptions.InvalidDataException;
 import com.anderson.hotel_reservation_system.core.reservation.dataprovider.ReservationRepository;
 import com.anderson.hotel_reservation_system.core.reservation.domain.Reservation;
 import com.anderson.hotel_reservation_system.core.reservation.enums.ReservationStatus;
@@ -7,6 +8,8 @@ import com.anderson.hotel_reservation_system.core.reservation.usecases.ports.Fin
 import com.anderson.hotel_reservation_system.core.reservation.usecases.ports.UpdateStatusReservationUseCasePort;
 
 import java.util.UUID;
+
+import static com.anderson.hotel_reservation_system.core.exceptions.constants.ExceptionConstants.STATUS_CHANGE_NOT_ALLOWED;
 
 public class UpdateStatusReservationUseCaseImpl implements UpdateStatusReservationUseCasePort {
 
@@ -22,8 +25,11 @@ public class UpdateStatusReservationUseCaseImpl implements UpdateStatusReservati
     @Override
     public Reservation execute(UUID id, String status) {
         Reservation reservation = findReservationById.execute(id);
-        reservation.setStatus(ReservationStatus.fromString(status));
-
-        return repository.save(reservation);
+        if(reservation.getStatus().equals(ReservationStatus.IN_USE) || reservation.getStatus().equals(ReservationStatus.SCHEDULED)) {
+            reservation.setStatus(ReservationStatus.fromString(status));
+            return repository.save(reservation);
+        } else {
+            throw new InvalidDataException(STATUS_CHANGE_NOT_ALLOWED);
+        }
     }
 }
