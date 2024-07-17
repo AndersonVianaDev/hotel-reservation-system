@@ -40,7 +40,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
         CustomerEntity customerEntity = customerRepository.findById(idCustomer).orElseThrow(() -> new NotFoundException(CUSTOMER_NOT_FOUND));
         RoomEntity roomEntity = roomRepository.findById(idRoom).orElseThrow(() -> new NotFoundException(ROOM_NOT_FOUND));
 
-        ReservationEntity reservationEntity = toReservationEntity(reservation, customerEntity, roomEntity);\
+        ReservationEntity reservationEntity = toReservationEntity(reservation, customerEntity, roomEntity);
 
         return toReservation(repository.save(reservationEntity));
     }
