@@ -9,4 +9,5 @@ public interface RoomRepository {
     Room save(Room room);
     Optional<Room> findByRoomNumber(String roomNumber);
     Optional<Room> findById(UUID id);
+    void delete(Room room);
 }
