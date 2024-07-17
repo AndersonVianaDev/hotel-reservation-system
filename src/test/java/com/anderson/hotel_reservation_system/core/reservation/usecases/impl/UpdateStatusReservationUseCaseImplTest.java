@@ -1,5 +1,6 @@
 package com.anderson.hotel_reservation_system.core.reservation.usecases.impl;
 
+import com.anderson.hotel_reservation_system.core.exceptions.InvalidDataException;
 import com.anderson.hotel_reservation_system.core.reservation.dataprovider.ReservationRepository;
 import com.anderson.hotel_reservation_system.core.reservation.domain.Reservation;
 import com.anderson.hotel_reservation_system.core.reservation.enums.ReservationStatus;
@@ -13,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.UUID;
 
+import static com.anderson.hotel_reservation_system.core.exceptions.constants.ExceptionConstants.STATUS_CHANGE_NOT_ALLOWED;
 import static com.anderson.hotel_reservation_system.core.reservation.builder.ReservationBuilderTest.toReservation;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -43,5 +45,20 @@ class UpdateStatusReservationUseCaseImplTest {
         Reservation reservationResult = useCase.execute(id, status);
 
         assertEquals(ReservationStatus.fromString(status), reservationResult.getStatus());
+    }
+
+    @Test
+    @DisplayName("it is not possible to change the status of this reservation")
+    void executeWithInvalidData() {
+        Reservation reservation = toReservation();
+        UUID id = reservation.getId();
+        reservation.setStatus(ReservationStatus.FINISHED);
+        String status = "in_use";
+
+        when(findReservationById.execute(id)).thenReturn(reservation);
+
+        InvalidDataException exception = assertThrows(InvalidDataException.class, () -> useCase.execute(id, status));
+
+        assertEquals(STATUS_CHANGE_NOT_ALLOWED, exception.getMessage());
     }
 }
