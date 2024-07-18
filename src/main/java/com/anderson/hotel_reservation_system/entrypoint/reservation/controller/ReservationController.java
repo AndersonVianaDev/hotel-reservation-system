@@ -37,7 +37,7 @@ public class ReservationController {
     @Autowired
     private UpdateStatusReservationUseCasePort updateStatusReservation;
 
-    @PostMapping("/register")
+    @PostMapping("/register/{idCustomer}/{idRoom}")
     public ResponseEntity<Reservation> register(@PathVariable("idCustomer") UUID idCustomer, @PathVariable("idRoom") UUID idRoom, @Valid @RequestBody ReservationRequestDTO dto) {
         ReservationDTO reservationDTO = toReservationDTO(idCustomer, idRoom, dto);
         Reservation reservation = registerReservation.execute(reservationDTO);
