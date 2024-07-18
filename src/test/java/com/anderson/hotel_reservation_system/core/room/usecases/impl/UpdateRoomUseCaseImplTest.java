@@ -39,7 +39,7 @@ class UpdateRoomUseCaseImplTest {
         RoomDTO dto = new RoomDTO("A13", "normal", new BigDecimal(135));
 
         when(findRoomById.execute(id)).thenReturn(room);
-        when(repository.save(any(Room.class))).thenAnswer(invocations -> invocations.getArgument(0));
+        when(repository.update(any(Room.class))).thenAnswer(invocations -> invocations.getArgument(0));
 
         Room roomResult = useCase.execute(id, dto);
 

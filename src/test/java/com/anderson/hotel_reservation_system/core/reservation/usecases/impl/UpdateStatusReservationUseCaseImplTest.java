@@ -40,7 +40,7 @@ class UpdateStatusReservationUseCaseImplTest {
         String status = "in_use";
 
         when(findReservationById.execute(id)).thenReturn(reservation);
-        when(repository.save(any(Reservation.class))).thenAnswer(invocations -> invocations.getArgument(0));
+        when(repository.update(any(Reservation.class))).thenAnswer(invocations -> invocations.getArgument(0));
 
         Reservation reservationResult = useCase.execute(id, status);
 

@@ -37,7 +37,7 @@ class UpdateCustomerUseCaseImplTest {
         UUID id = customer.getId();
         CustomerDTO dto = new CustomerDTO("update", "update@gmail.com", "888888888888");
 
-        when(repository.save(any(Customer.class))).thenAnswer(invocations -> invocations.getArgument(0));
+        when(repository.update(any(Customer.class))).thenAnswer(invocations -> invocations.getArgument(0));
         when(findCustomerById.execute(id)).thenReturn(customer);
 
         Customer customerResult = useCase.execute(id, dto);
