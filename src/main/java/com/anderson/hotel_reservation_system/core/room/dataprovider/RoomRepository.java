@@ -12,4 +12,5 @@ public interface RoomRepository {
     Optional<Room> findById(UUID id);
     void delete(Room room);
     List<Room> findAllOccupiedRooms();
+    Room update(Room room);
 }

@@ -17,8 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.anderson.hotel_reservation_system.core.exceptions.constants.ExceptionConstants.CUSTOMER_NOT_FOUND;
-import static com.anderson.hotel_reservation_system.core.exceptions.constants.ExceptionConstants.ROOM_NOT_FOUND;
+import static com.anderson.hotel_reservation_system.core.exceptions.constants.ExceptionConstants.*;
 import static com.anderson.hotel_reservation_system.dataprovider.reservation.mapper.ReservationEntityMapper.*;
 
 @Component
@@ -55,5 +54,12 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     public List<Reservation> findAllByDateRange(LocalDate startDate, LocalDate endDate) {
         List<ReservationEntity> reservationEntities = repository.findAllByDateRange(startDate, endDate);
         return toReservationList(reservationEntities);
+    }
+
+    @Override
+    public Reservation update(Reservation reservation) {
+        ReservationEntity reservationEntity = repository.findById(reservation.getId()).orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
+        reservationEntity.setStatus(reservation.getStatus());
+        return toReservation(repository.save(reservationEntity));
     }
 }

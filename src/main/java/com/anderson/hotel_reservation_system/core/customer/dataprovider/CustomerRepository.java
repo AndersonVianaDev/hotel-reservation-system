@@ -10,4 +10,5 @@ public interface CustomerRepository {
     Optional<Customer> findByEmail(String email);
     Optional<Customer> findById(UUID id);
     void delete(Customer customer);
+    Customer update(Customer customer);
 }

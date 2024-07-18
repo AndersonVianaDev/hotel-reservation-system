@@ -27,7 +27,7 @@ public class UpdateStatusReservationUseCaseImpl implements UpdateStatusReservati
         Reservation reservation = findReservationById.execute(id);
         if(reservation.getStatus().equals(ReservationStatus.IN_USE) || reservation.getStatus().equals(ReservationStatus.SCHEDULED)) {
             reservation.setStatus(ReservationStatus.fromString(status));
-            return repository.save(reservation);
+            return repository.update(reservation);
         } else {
             throw new InvalidDataException(STATUS_CHANGE_NOT_ALLOWED);
         }

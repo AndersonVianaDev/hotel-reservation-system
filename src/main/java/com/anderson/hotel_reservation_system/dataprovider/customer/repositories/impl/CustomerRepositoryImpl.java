@@ -43,4 +43,13 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         CustomerEntity customerEntity = repository.findById(customer.getId()).orElseThrow(() -> new NotFoundException(CUSTOMER_NOT_FOUND));
         repository.delete(customerEntity);
     }
+
+    @Override
+    public Customer update(Customer customer) {
+        CustomerEntity customerEntity = repository.findById(customer.getId()).orElseThrow(() -> new NotFoundException(CUSTOMER_NOT_FOUND));
+        customerEntity.setName(customer.getName());
+        customerEntity.setEmail(customer.getEmail());
+        customerEntity.setPhone(customer.getPhone());
+        return toCustomer(repository.save(customerEntity));
+    }
 }

@@ -35,6 +35,6 @@ public class UpdateCustomerUseCaseImpl implements UpdateCustomerUseCasePort {
             customer.setPhone(dto.phone());
         }
 
-        return repository.save(customer);
+        return repository.update(customer);
     }
 }

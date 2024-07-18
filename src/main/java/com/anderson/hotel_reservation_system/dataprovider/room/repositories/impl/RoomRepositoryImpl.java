@@ -49,4 +49,13 @@ public class RoomRepositoryImpl implements RoomRepository {
     public List<Room> findAllOccupiedRooms() {
         return toRoomList(repository.findAllOccupiedRooms());
     }
+
+    @Override
+    public Room update(Room room) {
+        RoomEntity roomEntity = repository.findById(room.getId()).orElseThrow(() -> new NotFoundException(ROOM_NOT_FOUND));
+        roomEntity.setRoomNumber(room.getRoomNumber());
+        roomEntity.setType(room.getType());
+        roomEntity.setPrice(room.getPrice());
+        return toRoom(repository.save(roomEntity));
+    }
 }

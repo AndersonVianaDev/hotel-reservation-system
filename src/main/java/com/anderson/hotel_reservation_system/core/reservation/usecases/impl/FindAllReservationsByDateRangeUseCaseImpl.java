@@ -20,7 +20,7 @@ public class FindAllReservationsByDateRangeUseCaseImpl implements FindAllReserva
 
     @Override
     public List<Reservation> execute(DateRangeDTO dto) {
-        if(!dto.checkIn().isBefore(dto.checkOut())) throw new InvalidDataException(CHECK_OUT_BEFORE_CHECK_IN);
-        return repository.findAllByDateRange(dto.checkIn(), dto.checkOut());
+        if(!dto.startDate().isBefore(dto.endDate())) throw new InvalidDataException(CHECK_OUT_BEFORE_CHECK_IN);
+        return repository.findAllByDateRange(dto.startDate(), dto.endDate());
     }
 }

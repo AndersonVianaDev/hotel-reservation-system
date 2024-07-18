@@ -36,6 +36,6 @@ public class UpdateRoomUseCaseImpl implements UpdateRoomUseCasePort {
             room.setPrice(dto.price());
         }
 
-        return repository.save(room);
+        return repository.update(room);
     }
 }
