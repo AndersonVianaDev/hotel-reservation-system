@@ -13,5 +13,5 @@ import java.util.UUID;
 @Repository
 public interface SpringReservationRepository extends JpaRepository<ReservationEntity, UUID> {
     @Query("SELECT res FROM ReservationEntity res WHERE res.checkIn >= :startDate AND res.checkOut <= :endDate")
-    List<ReservationEntity> findAllByDateRange(@Param("startDate") LocalDate checkIn, @Param("endDate") LocalDate checkOut);
+    List<ReservationEntity> findAllByDateRange(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }
