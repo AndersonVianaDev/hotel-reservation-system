@@ -36,7 +36,7 @@ class DeleteCustomerUseCaseImplTest {
 
         when(findCustomerById.execute(id)).thenReturn(customer);
 
-        useCase.delete(id);
+        useCase.execute(id);
 
         verify(repository, times(1)).delete(customer);
     }

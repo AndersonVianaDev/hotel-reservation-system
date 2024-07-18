@@ -19,7 +19,7 @@ public class DeleteCustomerUseCaseImpl implements DeleteCustomerUseCasePort {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void execute(UUID id) {
         Customer customer = findCustomerById.execute(id);
         repository.delete(customer);
     }
