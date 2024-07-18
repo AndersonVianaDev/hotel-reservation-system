@@ -52,8 +52,8 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     }
 
     @Override
-    public List<Reservation> findAllByDateRange(LocalDate checkIn, LocalDate checkOut) {
-        List<ReservationEntity> reservationEntities = repository.findAllByDateRange(checkIn, checkOut);
+    public List<Reservation> findAllByDateRange(LocalDate startDate, LocalDate endDate) {
+        List<ReservationEntity> reservationEntities = repository.findAllByDateRange(startDate, endDate);
         return toReservationList(reservationEntities);
     }
 }

@@ -10,5 +10,5 @@ import java.util.UUID;
 public interface ReservationRepository {
     Reservation save(Reservation reservation);
     Optional<Reservation> findById(UUID id);
-    List<Reservation> findAllByDateRange(LocalDate checkIn, LocalDate checkOut);
+    List<Reservation> findAllByDateRange(LocalDate startDate, LocalDate endDate);
 }

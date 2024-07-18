@@ -36,7 +36,7 @@ class FindAllReservationsByDateRangeUseCaseImplTest {
         List<Reservation> reservations = toReservationListSize2();
         DateRangeDTO dto = toDateRangeDTO();
 
-        when(repository.findAllByDateRange(dto.checkIn(), dto.checkOut())).thenReturn(reservations);
+        when(repository.findAllByDateRange(dto.startDate(), dto.endDate())).thenReturn(reservations);
 
         List<Reservation> reservationsListResul = useCase.execute(dto);
 
