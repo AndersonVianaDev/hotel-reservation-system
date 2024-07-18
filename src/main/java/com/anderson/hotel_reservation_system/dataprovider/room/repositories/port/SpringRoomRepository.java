@@ -12,9 +12,9 @@ import java.util.UUID;
 
 @Repository
 public interface SpringRoomRepository extends JpaRepository<RoomEntity, UUID> {
-    @Query("SELECT r FROM Room r WHERE r.roomNumber = :roomNumber")
+    @Query("SELECT r FROM RoomEntity r WHERE r.roomNumber = :roomNumber")
     Optional<RoomEntity> findByRoomNumber(@Param("roomNumber") String roomNumber);
 
-    @Query("SELECT r FROM Room r JOIN Reservation res ON res.room.id = r.id WHERE res.status = 'IN_USE'")
+    @Query("SELECT r FROM RoomEntity r JOIN Reservation res ON res.room.id = r.id WHERE res.status = 'IN_USE'")
     List<RoomEntity> findAllOccupiedRooms();
 }
