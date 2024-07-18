@@ -10,4 +10,5 @@ public class ExceptionConstants {
     public static final String RESERVATION_STATUS_UNKNOWM = "reservation status unknowm.";
     public static final String STATUS_CHANGE_NOT_ALLOWED = "it is not possible to change the status of this reservation.";
     public static final String EMPLOYEE_TYPE_UNKNOWM = "employee type unknowm.";
+    public static final String EMPLOYEE_NOT_FOUND = "employee not found.";
 }
