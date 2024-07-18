@@ -1,9 +1,6 @@
 package com.anderson.hotel_reservation_system.dataprovider.customer.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
@@ -14,13 +11,15 @@ import java.util.UUID;
 public class CustomerEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
     private String email;
     private String phone;
     @CreationTimestamp
     private Instant create_at;
+
+    private CustomerEntity() {}
 
     public CustomerEntity(UUID id, String name, String email, String phone, Instant create_at) {
         this.id = id;

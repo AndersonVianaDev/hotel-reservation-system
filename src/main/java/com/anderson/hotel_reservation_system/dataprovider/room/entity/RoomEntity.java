@@ -1,9 +1,6 @@
 package com.anderson.hotel_reservation_system.dataprovider.room.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -12,11 +9,13 @@ import java.util.UUID;
 @Table(name = "tb_rooms")
 public class RoomEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String roomNumber;
     private String type;
     private BigDecimal price;
+
+    private RoomEntity() {}
 
     public RoomEntity(UUID id, String roomNumber, String type, BigDecimal price) {
         this.id = id;

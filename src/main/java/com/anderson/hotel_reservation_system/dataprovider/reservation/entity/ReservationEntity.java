@@ -12,7 +12,7 @@ import java.util.UUID;
 @Table(name = "tb_reservations")
 public class ReservationEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private LocalDate checkIn;
     private LocalDate checkOut;
@@ -27,6 +27,8 @@ public class ReservationEntity {
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)
     private RoomEntity room;
+
+    private ReservationEntity() {}
 
     public ReservationEntity(UUID id, LocalDate checkIn, LocalDate checkOut, ReservationStatus status, CustomerEntity customer, RoomEntity room) {
         this.id = id;
