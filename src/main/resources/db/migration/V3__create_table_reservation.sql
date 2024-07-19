@@ -1,11 +1,3 @@
-CREATE TYPE reservation_status AS ENUM (
-    'SCHEDULED',
-    'IN_USE',
-    'ABSENCE',
-    'FINISHED',
-    'CANCELED'
-);
-
 CREATE TABLE tb_reservations(
     id UUID PRIMARY KEY,
     check_in DATE NOT NULL,
