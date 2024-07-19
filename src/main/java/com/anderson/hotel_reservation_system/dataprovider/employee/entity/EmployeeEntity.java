@@ -2,18 +2,24 @@ package com.anderson.hotel_reservation_system.dataprovider.employee.entity;
 
 import com.anderson.hotel_reservation_system.core.employee.enums.EmployeeType;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "tb_employees")
-public class EmployeeEntity {
+public class EmployeeEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
     private String email;
     private String password;
+
     @Enumerated(EnumType.STRING)
     private EmployeeType type;
 
@@ -61,5 +67,16 @@ public class EmployeeEntity {
 
     public void setType(EmployeeType type) {
         this.type = type;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if(type == EmployeeType.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 }
