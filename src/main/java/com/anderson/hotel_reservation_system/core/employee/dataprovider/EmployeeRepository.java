@@ -9,4 +9,5 @@ public interface EmployeeRepository {
     Employee save(Employee employee);
     Optional<Employee> findByEmail(String email);
     Optional<Employee> findById(UUID id);
+    void delete(Employee employee);
 }
