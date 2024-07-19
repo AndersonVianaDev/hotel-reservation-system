@@ -14,6 +14,7 @@ public class EmployeeEntity {
     private String name;
     private String email;
     private String password;
+    @Enumerated(EnumType.STRING)
     private EmployeeType type;
 
     private EmployeeEntity() {}
