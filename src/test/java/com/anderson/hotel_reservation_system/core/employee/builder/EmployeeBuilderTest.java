@@ -4,6 +4,7 @@ import com.anderson.hotel_reservation_system.core.employee.domain.Employee;
 import com.anderson.hotel_reservation_system.core.employee.dtos.EmployeeDTO;
 import com.anderson.hotel_reservation_system.core.employee.enums.EmployeeType;
 
+import java.util.List;
 import java.util.UUID;
 
 public class EmployeeBuilderTest {
@@ -19,5 +20,9 @@ public class EmployeeBuilderTest {
                 .withPassword("anderson12")
                 .withType(EmployeeType.ADMIN)
                 .build();
+    }
+
+    public static List<Employee> toEmployeeListSize2() {
+        return List.of( toEmployee(), toEmployee());
     }
 }
