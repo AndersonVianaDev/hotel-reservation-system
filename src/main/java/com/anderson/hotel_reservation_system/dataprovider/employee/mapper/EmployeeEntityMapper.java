@@ -5,6 +5,7 @@ import com.anderson.hotel_reservation_system.core.employee.domain.Employee;
 import com.anderson.hotel_reservation_system.dataprovider.employee.builder.EmployeeEntityBuilder;
 import com.anderson.hotel_reservation_system.dataprovider.employee.entity.EmployeeEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 public class EmployeeEntityMapper {
@@ -30,5 +31,9 @@ public class EmployeeEntityMapper {
 
     public static Optional<Employee> toOptionalEmployee(Optional<EmployeeEntity> employeeEntity) {
         return employeeEntity.map(EmployeeEntityMapper::toEmployee);
+    }
+
+    public static List<Employee> toEmployeeList(List<EmployeeEntity> employeeEntities) {
+        return employeeEntities.stream().map(EmployeeEntityMapper::toEmployee).toList();
     }
 }

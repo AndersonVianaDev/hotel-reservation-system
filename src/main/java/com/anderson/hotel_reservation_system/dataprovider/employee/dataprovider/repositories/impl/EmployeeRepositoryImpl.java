@@ -8,6 +8,7 @@ import com.anderson.hotel_reservation_system.dataprovider.employee.dataprovider.
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -42,6 +43,11 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     public void delete(Employee employee) {
         EmployeeEntity employeeEntity = repository.findById(employee.getId()).orElseThrow(() -> new NotFoundException(EMPLOYEE_NOT_FOUND));
         repository.delete(employeeEntity);
+    }
+
+    @Override
+    public List<Employee> findAll() {
+        return toEmployeeList(repository.findAll());
     }
 
 }

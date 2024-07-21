@@ -1,15 +1,19 @@
 package com.anderson.hotel_reservation_system.config.beans.employee;
 
 import com.anderson.hotel_reservation_system.core.employee.usecases.impl.DeleteEmployeeUseCaseImpl;
+import com.anderson.hotel_reservation_system.core.employee.usecases.impl.FindAllEmployeesUseCaseImpl;
 import com.anderson.hotel_reservation_system.core.employee.usecases.impl.FindEmployeeByIdUseCaseImpl;
 import com.anderson.hotel_reservation_system.core.employee.usecases.impl.RegisterEmployeeUseCaseImpl;
 import com.anderson.hotel_reservation_system.core.employee.usecases.ports.DeleteEmployeeUseCasePort;
+import com.anderson.hotel_reservation_system.core.employee.usecases.ports.FindAllEmployeesUseCasePort;
 import com.anderson.hotel_reservation_system.core.employee.usecases.ports.FindEmployeeByIdUseCasePort;
 import com.anderson.hotel_reservation_system.core.employee.usecases.ports.RegisterEmployeeUseCasePort;
 import com.anderson.hotel_reservation_system.dataprovider.employee.dataprovider.PasswordEncoderImpl;
 import com.anderson.hotel_reservation_system.dataprovider.employee.dataprovider.repositories.impl.EmployeeRepositoryImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 @Configuration
 public class EmployeeBeans {
@@ -27,5 +31,10 @@ public class EmployeeBeans {
     @Bean
     public DeleteEmployeeUseCasePort deleteEmployeeUseCasePort(EmployeeRepositoryImpl repository, FindEmployeeByIdUseCasePort findEmployeeById) {
         return new DeleteEmployeeUseCaseImpl(repository, findEmployeeById);
+    }
+
+    @Bean
+    public FindAllEmployeesUseCasePort findAllEmployeesUseCasePort(EmployeeRepositoryImpl repository) {
+        return new FindAllEmployeesUseCaseImpl(repository);
     }
 }

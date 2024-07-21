@@ -2,6 +2,7 @@ package com.anderson.hotel_reservation_system.core.employee.dataprovider;
 
 import com.anderson.hotel_reservation_system.core.employee.domain.Employee;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -10,4 +11,5 @@ public interface EmployeeRepository {
     Optional<Employee> findByEmail(String email);
     Optional<Employee> findById(UUID id);
     void delete(Employee employee);
+    List<Employee> findAll();
 }
