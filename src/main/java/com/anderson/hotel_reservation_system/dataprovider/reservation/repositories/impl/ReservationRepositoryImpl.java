@@ -62,4 +62,9 @@ public class ReservationRepositoryImpl implements ReservationRepository {
         reservationEntity.setStatus(reservation.getStatus());
         return toReservation(repository.save(reservationEntity));
     }
+
+    @Override
+    public List<Reservation> findAll() {
+        return toReservationList(repository.findAll());
+    }
 }

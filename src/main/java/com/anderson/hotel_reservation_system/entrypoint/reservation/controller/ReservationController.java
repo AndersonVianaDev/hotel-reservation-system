@@ -3,10 +3,7 @@ package com.anderson.hotel_reservation_system.entrypoint.reservation.controller;
 import com.anderson.hotel_reservation_system.core.reservation.domain.Reservation;
 import com.anderson.hotel_reservation_system.core.reservation.dtos.DateRangeDTO;
 import com.anderson.hotel_reservation_system.core.reservation.dtos.ReservationDTO;
-import com.anderson.hotel_reservation_system.core.reservation.usecases.ports.FindAllReservationsByDateRangeUseCasePort;
-import com.anderson.hotel_reservation_system.core.reservation.usecases.ports.FindReservationByIdUseCasePort;
-import com.anderson.hotel_reservation_system.core.reservation.usecases.ports.RegisterReservationUseCasePort;
-import com.anderson.hotel_reservation_system.core.reservation.usecases.ports.UpdateStatusReservationUseCasePort;
+import com.anderson.hotel_reservation_system.core.reservation.usecases.ports.*;
 import com.anderson.hotel_reservation_system.entrypoint.reservation.dtos.DateRangeRequestDTO;
 import com.anderson.hotel_reservation_system.entrypoint.reservation.dtos.ReservationRequestDTO;
 import jakarta.validation.Valid;
@@ -28,6 +25,7 @@ import static com.anderson.hotel_reservation_system.entrypoint.reservation.mappe
 public class ReservationController {
 
     private static final Logger log = LoggerFactory.getLogger(ReservationController.class);
+
     @Autowired
     private RegisterReservationUseCasePort registerReservation;
 
@@ -39,6 +37,9 @@ public class ReservationController {
 
     @Autowired
     private UpdateStatusReservationUseCasePort updateStatusReservation;
+
+    @Autowired
+    private FindAllReservationsUseCasePort findAllReservations;
 
     @PostMapping("/register/{idCustomer}/{idRoom}")
     public ResponseEntity<Reservation> register(@PathVariable("idCustomer") UUID idCustomer, @PathVariable("idRoom") UUID idRoom, @Valid @RequestBody ReservationRequestDTO dto) {
@@ -76,5 +77,13 @@ public class ReservationController {
         Reservation reservation = updateStatusReservation.execute(id, status);
         log.info("Reservation status updated successfully with id: {}", reservation.getId());
         return ResponseEntity.ok(reservation);
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Reservation>> getAll() {
+        log.info("Get request received for all reservations");
+        List<Reservation> reservations = findAllReservations.execute();
+        log.info("Retrieved {} reservations", reservations.size());
+        return ResponseEntity.ok(reservations);
     }
 }

@@ -1,14 +1,8 @@
 package com.anderson.hotel_reservation_system.config.beans.reservation;
 
 import com.anderson.hotel_reservation_system.core.customer.usecases.ports.FindCustomerByIdUseCasePort;
-import com.anderson.hotel_reservation_system.core.reservation.usecases.impl.FindAllReservationsByDateRangeUseCaseImpl;
-import com.anderson.hotel_reservation_system.core.reservation.usecases.impl.FindReservationByIdUseCaseImpl;
-import com.anderson.hotel_reservation_system.core.reservation.usecases.impl.RegisterReservationUseCaseImpl;
-import com.anderson.hotel_reservation_system.core.reservation.usecases.impl.UpdateStatusReservationUseCaseImpl;
-import com.anderson.hotel_reservation_system.core.reservation.usecases.ports.FindAllReservationsByDateRangeUseCasePort;
-import com.anderson.hotel_reservation_system.core.reservation.usecases.ports.FindReservationByIdUseCasePort;
-import com.anderson.hotel_reservation_system.core.reservation.usecases.ports.RegisterReservationUseCasePort;
-import com.anderson.hotel_reservation_system.core.reservation.usecases.ports.UpdateStatusReservationUseCasePort;
+import com.anderson.hotel_reservation_system.core.reservation.usecases.impl.*;
+import com.anderson.hotel_reservation_system.core.reservation.usecases.ports.*;
 import com.anderson.hotel_reservation_system.core.room.usecases.ports.FindRoomByIdUseCasePort;
 import com.anderson.hotel_reservation_system.dataprovider.reservation.repositories.impl.ReservationRepositoryImpl;
 import org.springframework.context.annotation.Bean;
@@ -35,5 +29,10 @@ public class ReservationBeans {
     @Bean
     public UpdateStatusReservationUseCasePort updateStatusReservationUseCasePort(FindReservationByIdUseCasePort findReservationById, ReservationRepositoryImpl repository) {
         return new UpdateStatusReservationUseCaseImpl(repository, findReservationById);
+    }
+
+    @Bean
+    public FindAllReservationsUseCasePort findAllReservationsUseCasePort(ReservationRepositoryImpl repository) {
+        return new FindAllReservationUseCaseImpl(repository);
     }
 }
