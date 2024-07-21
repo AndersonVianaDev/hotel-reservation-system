@@ -58,4 +58,9 @@ public class RoomRepositoryImpl implements RoomRepository {
         roomEntity.setPrice(room.getPrice());
         return toRoom(repository.save(roomEntity));
     }
+
+    @Override
+    public List<Room> findAll() {
+        return toRoomList(repository.findAll());
+    }
 }

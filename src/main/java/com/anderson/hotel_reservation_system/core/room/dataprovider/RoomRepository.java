@@ -13,4 +13,5 @@ public interface RoomRepository {
     void delete(Room room);
     List<Room> findAllOccupiedRooms();
     Room update(Room room);
+    List<Room> findAll();
 }

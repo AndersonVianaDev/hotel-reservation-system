@@ -22,6 +22,7 @@ import static com.anderson.hotel_reservation_system.entrypoint.room.mapper.RoomR
 public class RoomController {
 
     private static final Logger log = LoggerFactory.getLogger(RoomController.class);
+
     @Autowired
     private RegisterRoomUseCasePort registerRoom;
 
@@ -36,6 +37,9 @@ public class RoomController {
 
     @Autowired
     private DeleteRoomUseCasePort deleteRoom;
+
+    @Autowired
+    private FindAllRoomsUseCasePort findAllRooms;
 
     @PostMapping("/register")
     public ResponseEntity<Room> register(@Valid @RequestBody RoomRequestDTO dto) {
@@ -81,5 +85,13 @@ public class RoomController {
         deleteRoom.execute(id);
         log.info("Room with id {} deleted successfully", id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Room>> getAll() {
+        log.info("Get request received for all rooms");
+        List<Room> rooms = findAllRooms.execute();
+        log.info("Retrieved {} rooms", rooms.size());
+        return ResponseEntity.ok(rooms);
     }
 }

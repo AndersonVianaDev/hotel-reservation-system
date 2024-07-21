@@ -33,4 +33,9 @@ public class RoomBeans {
     public DeleteRoomUseCasePort deleteRoomUseCasePort(RoomRepositoryImpl repository, FindRoomByIdUseCasePort findRoomById) {
         return new DeleteRoomUseCaseImpl(repository, findRoomById);
     }
+
+    @Bean
+    public FindAllRoomsUseCasePort findAllRoomsUseCasePort(RoomRepositoryImpl repository) {
+        return new FindAllRoomsUseCaseImpl(repository);
+    }
 }
