@@ -4,6 +4,7 @@ import com.anderson.hotel_reservation_system.core.customer.domain.Customer;
 import com.anderson.hotel_reservation_system.core.customer.dtos.CustomerDTO;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 public class CustomerBuilderTest {
@@ -19,5 +20,9 @@ public class CustomerBuilderTest {
                 .withPhone("9999999999")
                 .withCreate_at(Instant.now())
                 .build();
+    }
+
+    public static List<Customer> toCustomerList() {
+        return List.of(toCustomer(), toCustomer());
     }
 }
