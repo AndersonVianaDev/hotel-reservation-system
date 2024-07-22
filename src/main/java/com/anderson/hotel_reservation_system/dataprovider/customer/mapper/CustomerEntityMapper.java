@@ -5,6 +5,7 @@ import com.anderson.hotel_reservation_system.core.customer.domain.Customer;
 import com.anderson.hotel_reservation_system.dataprovider.customer.builder.CustomerEntityBuilder;
 import com.anderson.hotel_reservation_system.dataprovider.customer.entity.CustomerEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 public class CustomerEntityMapper {
@@ -28,5 +29,9 @@ public class CustomerEntityMapper {
 
     public static Optional<Customer> toOptionalCustomer(Optional<CustomerEntity> customerEntity) {
         return customerEntity.map(CustomerEntityMapper::toCustomer);
+    }
+
+    public static List<Customer> toCustomerList(List<CustomerEntity> customerEntities) {
+        return customerEntities.stream().map(CustomerEntityMapper::toCustomer).toList();
     }
 }

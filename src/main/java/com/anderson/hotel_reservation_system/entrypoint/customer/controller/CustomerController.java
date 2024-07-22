@@ -2,10 +2,7 @@ package com.anderson.hotel_reservation_system.entrypoint.customer.controller;
 
 import com.anderson.hotel_reservation_system.core.customer.domain.Customer;
 import com.anderson.hotel_reservation_system.core.customer.dtos.CustomerDTO;
-import com.anderson.hotel_reservation_system.core.customer.usecases.ports.DeleteCustomerUseCasePort;
-import com.anderson.hotel_reservation_system.core.customer.usecases.ports.FindCustomerByIdUseCasePort;
-import com.anderson.hotel_reservation_system.core.customer.usecases.ports.RegisterCustomerUseCasePort;
-import com.anderson.hotel_reservation_system.core.customer.usecases.ports.UpdateCustomerUseCasePort;
+import com.anderson.hotel_reservation_system.core.customer.usecases.ports.*;
 import com.anderson.hotel_reservation_system.entrypoint.customer.dtos.CustomerRequestDTO;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -15,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.List;
 import java.util.UUID;
 
 import static com.anderson.hotel_reservation_system.entrypoint.customer.mapper.CustomerRequestDTOMapper.toCustomerDTO;
@@ -36,6 +34,9 @@ public class CustomerController {
 
     @Autowired
     private DeleteCustomerUseCasePort deleteCustomer;
+
+    @Autowired
+    private FindAllCustomersUseCasePort findAllCustomers;
 
     @PostMapping("/register")
     public ResponseEntity<Customer> register(@Valid @RequestBody CustomerRequestDTO dto) {
@@ -73,5 +74,11 @@ public class CustomerController {
         deleteCustomer.execute(id);
         log.info("Customer with id {} deleted successfully", id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Customer>> getAll() {
+        List<Customer> customers = findAllCustomers.execute();
+        return ResponseEntity.ok(customers);
     }
 }

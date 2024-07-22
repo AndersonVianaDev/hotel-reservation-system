@@ -8,6 +8,7 @@ import com.anderson.hotel_reservation_system.dataprovider.customer.repositories.
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -51,5 +52,10 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         customerEntity.setEmail(customer.getEmail());
         customerEntity.setPhone(customer.getPhone());
         return toCustomer(repository.save(customerEntity));
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        return toCustomerList(repository.findAll());
     }
 }
