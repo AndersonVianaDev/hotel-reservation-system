@@ -78,7 +78,9 @@ public class CustomerController {
 
     @GetMapping("/getAll")
     public ResponseEntity<List<Customer>> getAll() {
+        log.info("Get all request received for customers");
         List<Customer> customers = findAllCustomers.execute();
+        log.info("All customers retrieved successfully, total count: {}", customers.size());
         return ResponseEntity.ok(customers);
     }
 }
