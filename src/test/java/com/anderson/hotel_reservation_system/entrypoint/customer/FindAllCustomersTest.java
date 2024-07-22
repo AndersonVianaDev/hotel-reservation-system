@@ -1,10 +1,11 @@
 package com.anderson.hotel_reservation_system.entrypoint.customer;
 
 import com.anderson.hotel_reservation_system.core.customer.domain.Customer;
-import com.anderson.hotel_reservation_system.dataprovider.customer.repositories.impl.CustomerRepositoryImpl;
 import com.anderson.hotel_reservation_system.dataprovider.customer.repositories.port.SpringCustomerRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,16 @@ public class FindAllCustomersTest {
 
     @Autowired
     private SpringCustomerRepository springRepository;
+
+    @BeforeEach
+    void setup() {
+        springRepository.deleteAll();
+    }
+
+    @AfterEach
+    void cleanup() {
+        springRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("successfully find all customers")
