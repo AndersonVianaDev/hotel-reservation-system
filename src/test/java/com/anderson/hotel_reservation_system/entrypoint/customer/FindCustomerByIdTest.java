@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.UUID;
 
-import static com.anderson.hotel_reservation_system.core.customer.builder.CustomerBuilderTest.toCustomer;
+import static com.anderson.hotel_reservation_system.entrypoint.customer.builders.CustomerBuilderTest.toCustomer1;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -36,8 +36,7 @@ public class FindCustomerByIdTest {
     @Test
     @DisplayName("find customer by id successfully")
     void findByIdSuccessfully() throws Exception {
-        Customer customer = toCustomer();
-        Customer savedCustomer = repository.save(customer);
+        Customer savedCustomer = repository.save(toCustomer1());
         UUID id = savedCustomer.getId();
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/customer/get/" + id))

@@ -3,6 +3,7 @@ package com.anderson.hotel_reservation_system.entrypoint.customer;
 import com.anderson.hotel_reservation_system.core.customer.domain.Customer;
 import com.anderson.hotel_reservation_system.core.customer.dtos.CustomerDTO;
 import com.anderson.hotel_reservation_system.dataprovider.customer.repositories.impl.CustomerRepositoryImpl;
+import com.anderson.hotel_reservation_system.entrypoint.customer.builders.CustomerBuilderTest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.UUID;
 
-import static com.anderson.hotel_reservation_system.core.customer.builder.CustomerBuilderTest.toCustomer;
+import static com.anderson.hotel_reservation_system.entrypoint.customer.builders.CustomerBuilderTest.toCustomer1;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -38,8 +39,7 @@ public class UpdateCustomerTest {
     @Test
     @DisplayName("successfully updating customer")
     void update() throws Exception {
-        Customer customer = toCustomer();
-        Customer savedCustomer = repository.save(customer);
+        Customer savedCustomer = repository.save(toCustomer1());
         UUID id = savedCustomer.getId();
         CustomerDTO dto = new CustomerDTO("updated", "update@gmail.com", "6543213545");
 

@@ -19,8 +19,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static com.anderson.hotel_reservation_system.core.customer.builder.CustomerBuilderTest.toCustomer;
-import static com.anderson.hotel_reservation_system.core.customer.builder.CustomerBuilderTest.toCustomerDTO;
+import static com.anderson.hotel_reservation_system.entrypoint.customer.builders.CustomerBuilderTest.toCustomerDTO;
+import static com.anderson.hotel_reservation_system.entrypoint.customer.builders.CustomerBuilderTest.toCustomer1;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -62,7 +62,7 @@ public class RegisterCustomerTest {
     @Test
     @DisplayName("data conflict exception")
     void registerWithDataConflict() throws Exception {
-        Customer customer = toCustomer();
+        Customer customer = toCustomer1();
         repository.save(customer);
 
         CustomerDTO dto = toCustomerDTO();

@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.anderson.hotel_reservation_system.core.customer.builder.CustomerBuilderTest.toCustomer;
+import static com.anderson.hotel_reservation_system.entrypoint.customer.builders.CustomerBuilderTest.toCustomer1;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
@@ -35,7 +35,7 @@ public class DeleteCustomerTest {
     @Test
     @DisplayName("successfully delete client")
     void delete() throws Exception{
-        Customer savedCustomer = repository.save(toCustomer());
+        Customer savedCustomer = repository.save(toCustomer1());
         UUID id = savedCustomer.getId();
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/customer/delete/" + id))
