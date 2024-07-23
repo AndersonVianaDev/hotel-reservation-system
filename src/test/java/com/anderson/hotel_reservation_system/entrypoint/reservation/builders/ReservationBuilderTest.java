@@ -27,4 +27,14 @@ public class ReservationBuilderTest {
                 .withStatus(ReservationStatus.SCHEDULED)
                 .build();
     }
+
+    public static Reservation toReservationIN_USE(Customer customer, Room room) {
+        return new ReservationBuilder()
+                .withCustomer(customer)
+                .withRoom(room)
+                .withCheckIn(LocalDate.of(2024, 7, 22))
+                .withCheckOut(LocalDate.of(2024, 7, 28))
+                .withStatus(ReservationStatus.IN_USE)
+                .build();
+    }
 }
