@@ -6,6 +6,8 @@ import com.anderson.hotel_reservation_system.dataprovider.employee.dataprovider.
 import com.anderson.hotel_reservation_system.entrypoint.employee.dtos.EmployeeResponseDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,16 @@ public class RegisterEmployeeTest {
 
     @Autowired
     private SpringEmployeeRepository springRepository;
+
+    @BeforeEach
+    void setup() {
+        springRepository.deleteAll();
+    }
+
+    @AfterEach
+    void cleanup() {
+        springRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("Register employee successfully")

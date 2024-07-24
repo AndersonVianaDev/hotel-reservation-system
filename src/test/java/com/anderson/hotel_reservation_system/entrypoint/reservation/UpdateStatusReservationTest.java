@@ -5,9 +5,12 @@ import com.anderson.hotel_reservation_system.core.reservation.domain.Reservation
 import com.anderson.hotel_reservation_system.core.reservation.enums.ReservationStatus;
 import com.anderson.hotel_reservation_system.core.room.domain.Room;
 import com.anderson.hotel_reservation_system.dataprovider.customer.repositories.impl.CustomerRepositoryImpl;
+import com.anderson.hotel_reservation_system.dataprovider.customer.repositories.port.SpringCustomerRepository;
 import com.anderson.hotel_reservation_system.dataprovider.employee.dataprovider.repositories.port.SpringEmployeeRepository;
 import com.anderson.hotel_reservation_system.dataprovider.reservation.repositories.impl.ReservationRepositoryImpl;
+import com.anderson.hotel_reservation_system.dataprovider.reservation.repositories.port.SpringReservationRepository;
 import com.anderson.hotel_reservation_system.dataprovider.room.repositories.impl.RoomRepositoryImpl;
+import com.anderson.hotel_reservation_system.dataprovider.room.repositories.port.SpringRoomRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -51,16 +54,26 @@ public class UpdateStatusReservationTest {
     private CustomerRepositoryImpl customerRepository;
 
     @Autowired
-    private SpringEmployeeRepository springRepository;
+    private SpringReservationRepository springRepository;
+
+    @Autowired
+    private SpringCustomerRepository springCustomerRepository;
+
+    @Autowired
+    private SpringRoomRepository springRoomRepository;
 
     @BeforeEach
     void setup() {
         springRepository.deleteAll();
+        springCustomerRepository.deleteAll();
+        springRoomRepository.deleteAll();
     }
 
     @AfterEach
     void cleanup() {
         springRepository.deleteAll();
+        springCustomerRepository.deleteAll();
+        springRoomRepository.deleteAll();
     }
 
     @Test
