@@ -79,5 +79,5 @@ O projeto original continha apenas três tabelas: `customer`, `reservation` e `r
 Para mais informações ou sugestões, entre em contato:
 
 - Nome: Anderson Palmerim
-- Email: [seu-email@example.com]
-- LinkedIn: [seu-perfil-linkedin]
+- Email: [andersonp.viana.contato@gmail.com](mailto:andersonp.viana.contato@gmail.com)
+- LinkedIn: [Anderson Palmerim](https://www.linkedin.com/in/andersonpdev/)
