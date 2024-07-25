@@ -4,6 +4,10 @@ import com.anderson.hotel_reservation_system.core.room.domain.Room;
 import com.anderson.hotel_reservation_system.core.room.dtos.RoomDTO;
 import com.anderson.hotel_reservation_system.core.room.usecases.ports.*;
 import com.anderson.hotel_reservation_system.entrypoint.room.dtos.RoomRequestDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +23,7 @@ import static com.anderson.hotel_reservation_system.entrypoint.room.mapper.RoomR
 
 @RestController
 @RequestMapping(value = "/room")
+@Tag(name = "Room Controller", description = "Operations related to rooms in the hotel reservation system.")
 public class RoomController {
 
     private static final Logger log = LoggerFactory.getLogger(RoomController.class);
@@ -42,6 +47,11 @@ public class RoomController {
     private FindAllRoomsUseCasePort findAllRooms;
 
     @PostMapping("/register")
+    @Operation(summary = "Register a new room", description = "Register a new room with the provided details.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Room created successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input data")
+    })
     public ResponseEntity<Room> register(@Valid @RequestBody RoomRequestDTO dto) {
         log.info("Register request received for room");
         RoomDTO roomDTO = toRoomDTO(dto);
@@ -55,6 +65,11 @@ public class RoomController {
     }
 
     @GetMapping("/get/{id}")
+    @Operation(summary = "Get room by ID", description = "Retrieve a room by its unique ID.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Room found and returned"),
+            @ApiResponse(responseCode = "404", description = "Room not found")
+    })
     public ResponseEntity<Room> get(@PathVariable("id") UUID id) {
         log.info("Get request received for room with id: {}", id);
         Room room = findRoomById.execute(id);
@@ -63,6 +78,10 @@ public class RoomController {
     }
 
     @GetMapping("/getOccupied")
+    @Operation(summary = "Get all occupied rooms", description = "Retrieve a list of all occupied rooms.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Occupied rooms retrieved successfully")
+    })
     public ResponseEntity<List<Room>> getOccupiedRooms() {
         log.info("Get request received for all occupied rooms");
         List<Room> rooms = findAllOccupiedRooms.execute();
@@ -71,6 +90,12 @@ public class RoomController {
     }
 
     @PutMapping("/put/{id}")
+    @Operation(summary = "Update room by ID", description = "Update the details of an existing room using its unique ID.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Room updated successfully"),
+            @ApiResponse(responseCode = "404", description = "Room not found"),
+            @ApiResponse(responseCode = "400", description = "Invalid input data")
+    })
     public ResponseEntity<Room> put(@PathVariable("id") UUID id, @Valid @RequestBody RoomRequestDTO dto) {
         log.info("Update request received for room with id: {} with details: {}", id, dto);
         RoomDTO roomDTO = toRoomDTO(dto);
@@ -80,6 +105,11 @@ public class RoomController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @Operation(summary = "Delete room by ID", description = "Delete an existing room using its unique ID.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Room deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Room not found")
+    })
     public ResponseEntity<Void> delete(@PathVariable("id") UUID id) {
         log.info("Delete request received for room with id: {}", id);
         deleteRoom.execute(id);
@@ -88,6 +118,10 @@ public class RoomController {
     }
 
     @GetMapping("/getAll")
+    @Operation(summary = "Get all rooms", description = "Retrieve a list of all rooms.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Rooms retrieved successfully")
+    })
     public ResponseEntity<List<Room>> getAll() {
         log.info("Get request received for all rooms");
         List<Room> rooms = findAllRooms.execute();

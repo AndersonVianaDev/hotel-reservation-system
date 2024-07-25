@@ -1,9 +1,16 @@
 package com.anderson.hotel_reservation_system;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
+@OpenAPIDefinition(info = @Info(
+		title = "hotel-reservation-system",
+		version = "1",
+		description = "Hotel reservation management system. This service allows for the administration of customers, rooms, and reservations, offering functionalities such as registering new customers and employees, managing room availability, and tracking reservation statuses.")
+)
 public class HotelReservationSystemApplication {
 
 	public static void main(String[] args) {
