@@ -4,6 +4,7 @@ import com.anderson.hotel_reservation_system.core.customer.domain.Customer;
 import com.anderson.hotel_reservation_system.core.customer.dtos.CustomerDTO;
 import com.anderson.hotel_reservation_system.dataprovider.customer.repositories.impl.CustomerRepositoryImpl;
 import com.anderson.hotel_reservation_system.dataprovider.customer.repositories.port.SpringCustomerRepository;
+import com.anderson.hotel_reservation_system.entrypoint.customer.dtos.CustomerRequestDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -20,8 +21,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static com.anderson.hotel_reservation_system.entrypoint.customer.builders.CustomerBuilderTest.toCustomerDTO;
-import static com.anderson.hotel_reservation_system.entrypoint.customer.builders.CustomerBuilderTest.toCustomer1;
+import static com.anderson.hotel_reservation_system.entrypoint.customer.builders.CustomerBuilderTest.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -86,6 +86,19 @@ public class RegisterCustomerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(dtoString))
                 .andExpect(MockMvcResultMatchers.status().isConflict())
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    @DisplayName("method argument not valid exception")
+    void registerWithMethodArgumentNotValidException() throws Exception {
+        CustomerRequestDTO dto = toCustomerRequestDTO();
+        String dtoString = mapper.writeValueAsString(dto);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/customer/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(dtoString))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andDo(MockMvcResultHandlers.print());
     }
 }

@@ -37,4 +37,8 @@ public class ReservationBuilderTest {
                 .withStatus(ReservationStatus.IN_USE)
                 .build();
     }
+
+    public static ReservationRequestDTO toReservationRequestDTOWithMethodArgumentNotValid() {
+        return new ReservationRequestDTO(LocalDate.of(2024,07,23), LocalDate.of(2024, 07, 30));
+    }
 }

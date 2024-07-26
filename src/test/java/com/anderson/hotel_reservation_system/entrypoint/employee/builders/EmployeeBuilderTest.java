@@ -5,6 +5,7 @@ import com.anderson.hotel_reservation_system.core.employee.domain.Employee;
 import com.anderson.hotel_reservation_system.core.employee.dtos.EmployeeDTO;
 import com.anderson.hotel_reservation_system.core.employee.enums.EmployeeType;
 import com.anderson.hotel_reservation_system.dataprovider.employee.entity.EmployeeEntity;
+import com.anderson.hotel_reservation_system.entrypoint.employee.dtos.EmployeeRequestDTO;
 
 import java.util.List;
 import java.util.UUID;
@@ -46,5 +47,9 @@ public class EmployeeBuilderTest {
 
     public static List<EmployeeEntity> toEmployeesEntity() {
         return List.of(toEmployeeEntity(toEmployee1()), toEmployeeEntity(toEmployee2()), toEmployeeEntity(toEmployee3()));
+    }
+
+    public static EmployeeRequestDTO toEmployeeRequestDTO() {
+        return new EmployeeRequestDTO("anderson", "anderson@gmail.com", "1234", "admin");
     }
 }

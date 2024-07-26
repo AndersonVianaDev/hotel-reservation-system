@@ -4,6 +4,7 @@ import com.anderson.hotel_reservation_system.core.room.builder.RoomBuilder;
 import com.anderson.hotel_reservation_system.core.room.domain.Room;
 import com.anderson.hotel_reservation_system.core.room.dtos.RoomDTO;
 import com.anderson.hotel_reservation_system.dataprovider.room.entity.RoomEntity;
+import com.anderson.hotel_reservation_system.entrypoint.room.dtos.RoomRequestDTO;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -42,5 +43,9 @@ public class RoomBuilderTest {
 
     public static List<RoomEntity> toRoomsEntity() {
         return List.of(toRoomEntity(toRoom1()), toRoomEntity(toRoom2()), toRoomEntity(toRoom3()));
+    }
+
+    public static RoomRequestDTO toRoomRequestDTO() {
+        return new RoomRequestDTO("A1234546", "double", new BigDecimal(333));
     }
 }

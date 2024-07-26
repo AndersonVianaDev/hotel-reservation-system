@@ -5,7 +5,6 @@ import com.anderson.hotel_reservation_system.core.reservation.domain.Reservation
 import com.anderson.hotel_reservation_system.core.room.domain.Room;
 import com.anderson.hotel_reservation_system.dataprovider.customer.repositories.impl.CustomerRepositoryImpl;
 import com.anderson.hotel_reservation_system.dataprovider.customer.repositories.port.SpringCustomerRepository;
-import com.anderson.hotel_reservation_system.dataprovider.employee.dataprovider.repositories.port.SpringEmployeeRepository;
 import com.anderson.hotel_reservation_system.dataprovider.reservation.repositories.impl.ReservationRepositoryImpl;
 import com.anderson.hotel_reservation_system.dataprovider.reservation.repositories.port.SpringReservationRepository;
 import com.anderson.hotel_reservation_system.dataprovider.room.repositories.impl.RoomRepositoryImpl;
@@ -27,12 +26,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 import static com.anderson.hotel_reservation_system.entrypoint.customer.builders.CustomerBuilderTest.toCustomer1;
-import static com.anderson.hotel_reservation_system.entrypoint.reservation.builders.ReservationBuilderTest.toReservationRequestDTO;
-import static com.anderson.hotel_reservation_system.entrypoint.reservation.builders.ReservationBuilderTest.toReservationRequestDTOWithInvalidData;
+import static com.anderson.hotel_reservation_system.entrypoint.reservation.builders.ReservationBuilderTest.*;
 import static com.anderson.hotel_reservation_system.entrypoint.room.builders.RoomBuilderTest.toRoom1;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -115,6 +112,22 @@ public class RegisterReservationTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/reservation/register/"+idCustomer+"/"+idRoom)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(dtoString))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    @DisplayName("method argument not valid exception")
+    void registerWithMethodArgumentNotValidException() throws Exception {
+        ReservationRequestDTO dto = toReservationRequestDTOWithMethodArgumentNotValid();
+        UUID idCustomer = UUID.randomUUID();
+        UUID idRoom = UUID.randomUUID();
+
+        String dtoString = mapper.writeValueAsString(dto);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/reservation/register/"+idCustomer+"/"+idRoom)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(dtoString))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andDo(MockMvcResultHandlers.print());
     }

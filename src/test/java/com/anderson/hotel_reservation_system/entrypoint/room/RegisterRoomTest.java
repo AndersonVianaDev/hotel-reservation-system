@@ -4,6 +4,7 @@ import com.anderson.hotel_reservation_system.core.room.domain.Room;
 import com.anderson.hotel_reservation_system.core.room.dtos.RoomDTO;
 import com.anderson.hotel_reservation_system.dataprovider.room.repositories.impl.RoomRepositoryImpl;
 import com.anderson.hotel_reservation_system.dataprovider.room.repositories.port.SpringRoomRepository;
+import com.anderson.hotel_reservation_system.entrypoint.room.dtos.RoomRequestDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -20,10 +21,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.UUID;
-
-import static com.anderson.hotel_reservation_system.entrypoint.room.builders.RoomBuilderTest.toRoom1;
-import static com.anderson.hotel_reservation_system.entrypoint.room.builders.RoomBuilderTest.toRoomDTO;
+import static com.anderson.hotel_reservation_system.entrypoint.room.builders.RoomBuilderTest.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -88,5 +86,19 @@ public class RegisterRoomTest {
                 .content(dtoString))
                 .andExpect(MockMvcResultMatchers.status().isConflict())
                 .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    @DisplayName("method argument not valid exception")
+    void registerWithMethodArgumentNotValidException() throws Exception {
+        RoomRequestDTO dto = toRoomRequestDTO();
+
+        String dtoString = mapper.writeValueAsString(dto);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/room/register")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(dtoString))
+                    .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                    .andDo(MockMvcResultHandlers.print());
     }
 }

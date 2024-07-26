@@ -4,10 +4,10 @@ import com.anderson.hotel_reservation_system.core.customer.builder.CustomerBuild
 import com.anderson.hotel_reservation_system.core.customer.domain.Customer;
 import com.anderson.hotel_reservation_system.core.customer.dtos.CustomerDTO;
 import com.anderson.hotel_reservation_system.dataprovider.customer.entity.CustomerEntity;
+import com.anderson.hotel_reservation_system.entrypoint.customer.dtos.CustomerRequestDTO;
 
 import java.util.List;
 
-import static com.anderson.hotel_reservation_system.dataprovider.customer.mapper.CustomerEntityMapper.toCustomer;
 import static com.anderson.hotel_reservation_system.dataprovider.customer.mapper.CustomerEntityMapper.toCustomerEntity;
 
 public class CustomerBuilderTest {
@@ -42,6 +42,10 @@ public class CustomerBuilderTest {
 
     public static List<CustomerEntity> toCustomersEntity() {
         return List.of(toCustomerEntity(toCustomer1()), toCustomerEntity(toCustomer2()), toCustomerEntity(toCustomer3()));
+    }
+
+    public static CustomerRequestDTO toCustomerRequestDTO() {
+        return new CustomerRequestDTO("anderson", "anderson", "986454678");
     }
 
 }
