@@ -15,4 +15,5 @@ public class ExceptionConstants {
     public static final String TOKEN_CREATE_ERROR = "failed to create token.";
     public static final String AUTHENTICATION_FAILED = "authentication failed. Please check your credentials and try again.";
     public static final String INTERNAL_SERVER_ERROR = "internal server error, try later.";
+    public static final String FORBIDDEN = "access denied.";
 }
