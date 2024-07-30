@@ -10,6 +10,7 @@ O projeto original continha apenas três tabelas: `customer`, `reservation` e `r
 - Flyway para versionamento do banco de dados.
 - Spring Security para segurança da aplicação.
 - Testes unitários e de integração para garantir a qualidade do código.
+- Adição do Docker compose para subir o database PostgreSQL
 
 ## Funcionalidades
 
@@ -42,6 +43,7 @@ O projeto original continha apenas três tabelas: `customer`, `reservation` e `r
 
 - JDK 11 ou superior
 - Maven
+- Docker, Docker Compose
 
 ### Passos
 
@@ -51,13 +53,22 @@ O projeto original continha apenas três tabelas: `customer`, `reservation` e `r
     cd hotel-reservation-system
     ```
 
-2. Execute a aplicação:
+2. Execute o Docker compose:
+    ```bash
+    docker-compose up -d
+    ```
+    
+3. Execute a aplicação:
     ```bash
     mvn spring-boot:run
     ```
 
-3. Acesse a documentação da API no Swagger:
+4. Acesse a documentação da API no Swagger:
     - `http://localhost:8080/swagger-ui/index.html#`
+  
+5. Employee Admin:
+    - email: admin@gmail.com
+    - password: admin1234
 
 ## Estrutura do Banco de Dados
 
@@ -65,14 +76,6 @@ O projeto original continha apenas três tabelas: `customer`, `reservation` e `r
 - **tb_customers**: Tabela para gerenciar os clientes.
 - **tb_rooms**: Tabela para gerenciar os quartos.
 - **tb_reservations**: Tabela para gerenciar as reservas.
-
-## Melhorias Implementadas
-
-- Adição de uma nova tabela `employee`.
-- Implementação de segurança com Spring Security.
-- Documentação da API com Swagger.
-- Versionamento do banco de dados com Flyway.
-- Cobertura de testes unitários e de integração.
 
 ## Contato
 
