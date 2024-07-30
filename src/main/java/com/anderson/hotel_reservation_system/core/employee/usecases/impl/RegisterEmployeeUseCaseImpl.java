@@ -28,10 +28,8 @@ public class RegisterEmployeeUseCaseImpl implements RegisterEmployeeUseCasePort 
     @Override
     public Employee execute(EmployeeDTO dto) {
         log.debug("Starting registration process for employee.");
-        if(repository.findByEmail(dto.email()).isPresent()) {
-            log.warn("Registration failed: Employee with email {} already exists", dto.email());
-            throw new DataConflictException(EMAIL_ALREADY_REGISTERED);
-        }
+
+        if(repository.findByEmail(dto.email()).isPresent()) throw new DataConflictException(EMAIL_ALREADY_REGISTERED);
 
         String encodedPassword = passwordEncoder.encode(dto.password());
         log.debug("Password for employee with email {} encoded successfully", dto.email());

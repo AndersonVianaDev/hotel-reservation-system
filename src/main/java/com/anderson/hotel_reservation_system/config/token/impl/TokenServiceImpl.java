@@ -23,6 +23,7 @@ import static java.util.Objects.isNull;
 public class TokenServiceImpl implements TokenService {
 
     private static final Logger log = LoggerFactory.getLogger(TokenServiceImpl.class);
+
     @Value("${jwt-secret}")
     private String secret;
 
@@ -32,7 +33,6 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public String generator(EmployeeEntity employee) {
         if(isNull(secret) || isNull(expiration) || isNull(employee)) {
-            log.error("Configuration error: secret, expiration, or employee is null");
             throw new InvalidDataException(CONFIG_ERROR_MESSAGE);
         }
 
@@ -44,7 +44,6 @@ public class TokenServiceImpl implements TokenService {
                     .withExpiresAt(new Date(new Date().getTime() + Long.parseLong(expiration)))
                     .sign(Algorithm.HMAC256(secret));
         } catch (JWTCreationException e) {
-            log.error("Error creating token for employee with id: {}", employee.getId(), e);
             throw new RuntimeException(TOKEN_CREATE_ERROR);
         }
     }

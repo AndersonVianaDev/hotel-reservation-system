@@ -24,9 +24,6 @@ public class FindCustomerByIdUseCaseImpl implements FindCustomerByIdUseCasePort 
     @Override
     public Customer execute(UUID id) {
         log.debug("Attempting to find customer with id: {}", id);
-        return repository.findById(id).orElseThrow(() -> {
-            log.warn("Employee with id {} not found", id);
-            return new NotFoundException(CUSTOMER_NOT_FOUND);
-        });
+        return repository.findById(id).orElseThrow(() -> new NotFoundException(CUSTOMER_NOT_FOUND));
     }
 }

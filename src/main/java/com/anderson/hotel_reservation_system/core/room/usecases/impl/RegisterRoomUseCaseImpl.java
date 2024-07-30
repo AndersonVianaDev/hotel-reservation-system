@@ -24,10 +24,8 @@ public class RegisterRoomUseCaseImpl implements RegisterRoomUseCasePort {
     @Override
     public Room execute(RoomDTO dto) {
         log.debug("Register room use case started with room details: {}", dto);
-        if(repository.findByRoomNumber(dto.roomNumber()).isPresent()){
-            log.warn("Attempt to register room failed: room number already exists: {}", dto.roomNumber());
-            throw new DataConflictException(NUMBER_ROOM_ALREADY_REGISTERED);
-        }
+        if(repository.findByRoomNumber(dto.roomNumber()).isPresent()) throw new DataConflictException(NUMBER_ROOM_ALREADY_REGISTERED);
+
         Room room = toRoom(dto);
         return repository.save(room);
     }

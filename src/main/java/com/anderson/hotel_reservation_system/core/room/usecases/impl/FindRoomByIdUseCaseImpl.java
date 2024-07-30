@@ -24,9 +24,6 @@ public class FindRoomByIdUseCaseImpl implements FindRoomByIdUseCasePort {
     @Override
     public Room execute(UUID id) {
         log.debug("Find room use case started for room id: {}", id);
-        return repository.findById(id).orElseThrow(() -> {
-            log.warn("Room with id {} not found", id);
-            return new NotFoundException(ROOM_NOT_FOUND);
-        });
+        return repository.findById(id).orElseThrow(() -> new NotFoundException(ROOM_NOT_FOUND));
     }
 }

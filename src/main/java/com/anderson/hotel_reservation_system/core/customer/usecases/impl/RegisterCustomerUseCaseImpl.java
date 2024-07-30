@@ -23,10 +23,9 @@ public class RegisterCustomerUseCaseImpl implements RegisterCustomerUseCasePort 
     @Override
     public Customer execute(CustomerDTO dto) {
         log.debug("Attempting to register customer with email: {}", dto.email());
-        if(repository.findByEmail(dto.email()).isPresent()) {
-            log.warn("Email {} is already registered", dto.email());
-            throw new DataConflictException(EMAIL_ALREADY_REGISTERED);
-        }
+
+        if(repository.findByEmail(dto.email()).isPresent()) throw new DataConflictException(EMAIL_ALREADY_REGISTERED);
+
         Customer customer = toCustomer(dto);
         return repository.save(customer);
     }

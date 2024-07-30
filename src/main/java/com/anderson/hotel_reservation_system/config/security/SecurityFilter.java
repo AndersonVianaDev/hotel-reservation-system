@@ -48,10 +48,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     private void authenticateEmployee(String token) {
         UUID id = tokenService.getId(token);
         log.debug("Authenticating employee with ID: {}", id);
-        EmployeeEntity employeeEntity = repository.findById(id).orElseThrow(() -> {
-            log.warn("Employee not found with ID: {}", id);
-            return new NotFoundException(EMPLOYEE_NOT_FOUND);
-        });
+        EmployeeEntity employeeEntity = repository.findById(id).orElseThrow(() -> new NotFoundException(EMPLOYEE_NOT_FOUND));
         var authentication = new UsernamePasswordAuthenticationToken(employeeEntity, null, employeeEntity.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         log.debug("Employee authenticated: {}", employeeEntity);

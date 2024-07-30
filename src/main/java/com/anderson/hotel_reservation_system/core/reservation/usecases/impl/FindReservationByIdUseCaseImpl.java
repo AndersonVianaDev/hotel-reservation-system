@@ -24,9 +24,6 @@ public class FindReservationByIdUseCaseImpl implements FindReservationByIdUseCas
     @Override
     public Reservation execute(UUID id) {
         log.debug("Attempting to find reservation with id: {}", id);
-        return repository.findById(id).orElseThrow(() -> {
-            log.error("Reservation with id {} not found", id);
-            return new NotFoundException(RESERVATION_NOT_FOUND);
-        });
+        return repository.findById(id).orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
     }
 }

@@ -34,10 +34,7 @@ public class RegisterReservationUseCaseImpl implements RegisterReservationUseCas
     @Override
     public Reservation execute(ReservationDTO dto) {
         log.debug("Register reservation use case started with ReservationDTO: {}", dto);
-        if(!dto.checkIn().isBefore(dto.checkOut())) {
-            log.warn("Invalid reservation dates: check-out date {} is not after check-in date {}", dto.checkOut(), dto.checkIn());
-            throw new InvalidDataException(CHECK_OUT_BEFORE_CHECK_IN);
-        }
+        if(!dto.checkIn().isBefore(dto.checkOut())) throw new InvalidDataException(CHECK_OUT_BEFORE_CHECK_IN);
 
         log.debug("Retrieving customer with id: {}", dto.idCustomer());
         Customer customer = findCustomerById.execute(dto.idCustomer());

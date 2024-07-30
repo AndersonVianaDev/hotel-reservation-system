@@ -25,10 +25,8 @@ public class FindAllReservationsByDateRangeUseCaseImpl implements FindAllReserva
     @Override
     public List<Reservation> execute(DateRangeDTO dto) {
         log.debug("Attempting to find reservations within date range: {} to {}", dto.startDate(), dto.endDate());
-        if(!dto.startDate().isBefore(dto.endDate())) {
-            log.warn("Invalid date range: start date {} is not before end date {}", dto.startDate(), dto.endDate());
-            throw new InvalidDataException(CHECK_OUT_BEFORE_CHECK_IN);
-        }
+        if(!dto.startDate().isBefore(dto.endDate())) throw new InvalidDataException(CHECK_OUT_BEFORE_CHECK_IN);
+
         return repository.findAllByDateRange(dto.startDate(), dto.endDate());
     }
 }
