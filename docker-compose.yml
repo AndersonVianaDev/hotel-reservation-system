@@ -10,3 +10,11 @@ services:
       - POSTGRES_DB=postgres-db
     ports:
       - 5432:5432
+
+  hotel-reservation-system:
+    image: hotel-reservation-system:1.0
+    container_name: hotel-reservation-system
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres-db
