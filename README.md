@@ -42,8 +42,6 @@ O projeto original continha apenas três tabelas: `customer`, `reservation` e `r
 
 ### Pré-requisitos
 
-- JDK 11 ou superior
-- Maven
 - Docker, Docker Compose
 
 ### Passos
