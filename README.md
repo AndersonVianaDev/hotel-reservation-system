@@ -10,7 +10,8 @@ O projeto original continha apenas três tabelas: `customer`, `reservation` e `r
 - Flyway para versionamento do banco de dados.
 - Spring Security para segurança da aplicação.
 - Testes unitários e de integração para garantir a qualidade do código.
-- Adição do Docker compose para subir o database PostgreSQL
+- Adição do Docker Compose para subir o database PostgreSQL.
+- Criação de uma imagem Docker da aplicação para fácil implantação.
 
 ## Funcionalidades
 
@@ -35,7 +36,7 @@ O projeto original continha apenas três tabelas: `customer`, `reservation` e `r
 - **Flyway**: Versionamento do banco de dados.
 - **JUnit e Mockito**: Testes unitários e de integração.
 - **PostgreSQL**: Banco de dados utilizado.
-- **Docker Compose**: Configuração do ambiente de desenvolvimento com PostgreSQL.
+- **Docker e Docker Compose**: Configuração do ambiente de desenvolvimento e implantação com PostgreSQL.
 
 ## Como Executar o Projeto
 
@@ -53,20 +54,15 @@ O projeto original continha apenas três tabelas: `customer`, `reservation` e `r
     cd hotel-reservation-system
     ```
 
-2. Execute o Docker compose:
+2. Execute o Docker Compose:
     ```bash
     docker-compose up -d
     ```
-    
-3. Execute a aplicação:
-    ```bash
-    mvn spring-boot:run
-    ```
 
-4. Acesse a documentação da API no Swagger:
+3. Acesse a documentação da API no Swagger:
     - `http://localhost:8080/swagger-ui/index.html#`
   
-5. Employee Admin:
+4. Employee Admin:
     - email: admin@gmail.com
     - password: admin1234
 
