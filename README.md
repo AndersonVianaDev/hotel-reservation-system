@@ -38,7 +38,14 @@ O projeto original continha apenas três tabelas: `customer`, `reservation` e `r
 - **PostgreSQL**: Banco de dados utilizado.
 - **Docker e Docker Compose**: Configuração do ambiente de desenvolvimento e implantação com PostgreSQL.
 
-## Como Executar o Projeto
+## Employee Admin:
+- email: admin@gmail.com
+- password: admin1234
+
+## Acessando a API pelo link: 
+ [API-SWAGGER](https://hotel-reservation-system-production.up.railway.app/swagger-ui/index.html#/)
+
+## Como Executar o Projeto na sua máquina
 
 ### Pré-requisitos
 
@@ -59,10 +66,6 @@ O projeto original continha apenas três tabelas: `customer`, `reservation` e `r
 
 3. Acesse a documentação da API no Swagger:
     - `http://localhost:8080/swagger-ui/index.html#`
-  
-4. Employee Admin:
-    - email: admin@gmail.com
-    - password: admin1234
 
 ## Estrutura do Banco de Dados
 
