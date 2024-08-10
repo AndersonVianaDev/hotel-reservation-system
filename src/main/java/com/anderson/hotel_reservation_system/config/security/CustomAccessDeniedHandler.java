@@ -25,7 +25,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         StandardException exception = new StandardException(Instant.now(), HttpStatus.FORBIDDEN.value(), FORBIDDEN, request.getRequestURI());
-        response.setStatus(exception.getStatus());
+        response.setStatus(exception.status());
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(mapper.writeValueAsString(exception));

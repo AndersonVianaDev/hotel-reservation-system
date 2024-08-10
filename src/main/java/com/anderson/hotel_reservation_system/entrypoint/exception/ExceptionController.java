@@ -28,28 +28,28 @@ public class ExceptionController {
     public ResponseEntity<StandardException> notFound(NotFoundException e, HttpServletRequest request) {
         log.warn("NotFoundException: {} at URI: {}", e.getMessage(), request.getRequestURI());
         StandardException exception = new StandardException(Instant.now(), HttpStatus.NOT_FOUND.value(), e.getMessage(), request.getRequestURI());
-        return ResponseEntity.status(exception.getStatus()).body(exception);
+        return ResponseEntity.status(exception.status()).body(exception);
     }
 
     @ExceptionHandler(DataConflictException.class)
     public ResponseEntity<StandardException> dataConflict(DataConflictException e, HttpServletRequest request) {
         log.warn("DataConflictException: {} at URI: {}", e.getMessage(), request.getRequestURI());
         StandardException exception = new StandardException(Instant.now(), HttpStatus.CONFLICT.value(), e.getMessage(), request.getRequestURI());
-        return ResponseEntity.status(exception.getStatus()).body(exception);
+        return ResponseEntity.status(exception.status()).body(exception);
     }
 
     @ExceptionHandler(InvalidDataException.class)
     public ResponseEntity<StandardException> invalidData(InvalidDataException e, HttpServletRequest request) {
         log.warn("InvalidDataException: {} at URI: {}", e.getMessage(), request.getRequestURI());
         StandardException exception = new StandardException(Instant.now(), HttpStatus.BAD_REQUEST.value(), e.getMessage(), request.getRequestURI());
-        return ResponseEntity.status(exception.getStatus()).body(exception);
+        return ResponseEntity.status(exception.status()).body(exception);
     }
 
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<StandardException> authenticationException(AuthenticationException e, HttpServletRequest request) {
         log.warn("AuthenticationException: {} at URI: {}", e.getMessage(), request.getRequestURI());
         StandardException exception = new StandardException(Instant.now(), HttpStatus.UNAUTHORIZED.value(), AUTHENTICATION_FAILED, request.getRequestURI());
-        return ResponseEntity.status(exception.getStatus()).body(exception);
+        return ResponseEntity.status(exception.status()).body(exception);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -57,13 +57,13 @@ public class ExceptionController {
         String message = e.getBindingResult().getFieldError().getDefaultMessage();
         log.warn("MethodArgumentNotValidException: {} at URI: {}", message, request.getRequestURI());
         StandardException exception = new StandardException(Instant.now(), HttpStatus.BAD_REQUEST.value(), message, request.getRequestURI());
-        return ResponseEntity.status(exception.getStatus()).body(exception);
+        return ResponseEntity.status(exception.status()).body(exception);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<StandardException> genericException(Exception e, HttpServletRequest request) {
         log.error("Unexpected error: {} at URI: {}", e.getMessage(), request.getRequestURI(), e);
         StandardException exception = new StandardException(Instant.now(), HttpStatus.INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, request.getRequestURI());
-        return ResponseEntity.status(exception.getStatus()).body(exception);
+        return ResponseEntity.status(exception.status()).body(exception);
     }
 }
