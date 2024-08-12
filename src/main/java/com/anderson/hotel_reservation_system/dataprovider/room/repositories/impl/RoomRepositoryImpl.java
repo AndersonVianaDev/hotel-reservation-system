@@ -7,6 +7,7 @@ import com.anderson.hotel_reservation_system.dataprovider.room.entity.RoomEntity
 import com.anderson.hotel_reservation_system.dataprovider.room.repositories.port.SpringRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,6 +24,7 @@ public class RoomRepositoryImpl implements RoomRepository {
     private SpringRoomRepository repository;
 
     @Override
+    @Transactional
     public Room save(Room room) {
         RoomEntity roomEntity = toRoomEntity(room);
         return toRoom(repository.save(roomEntity));
@@ -41,6 +43,7 @@ public class RoomRepositoryImpl implements RoomRepository {
     }
 
     @Override
+    @Transactional
     public void delete(Room room) {
         RoomEntity roomEntity = repository.findById(room.getId()).orElseThrow(() -> new NotFoundException(ROOM_NOT_FOUND));
         repository.delete(roomEntity);
@@ -52,6 +55,7 @@ public class RoomRepositoryImpl implements RoomRepository {
     }
 
     @Override
+    @Transactional
     public Room update(Room room) {
         RoomEntity roomEntity = repository.findById(room.getId()).orElseThrow(() -> new NotFoundException(ROOM_NOT_FOUND));
         roomEntity.setRoomNumber(room.getRoomNumber());

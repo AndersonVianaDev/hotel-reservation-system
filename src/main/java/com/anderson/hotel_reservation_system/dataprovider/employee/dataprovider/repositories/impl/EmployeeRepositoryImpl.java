@@ -7,6 +7,7 @@ import com.anderson.hotel_reservation_system.dataprovider.employee.entity.Employ
 import com.anderson.hotel_reservation_system.dataprovider.employee.dataprovider.repositories.port.SpringEmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     private SpringEmployeeRepository repository;
 
     @Override
+    @Transactional
     public Employee save(Employee employee) {
         EmployeeEntity employeeEntity = toEmployeeEntity(employee);
         return toEmployee(repository.save(employeeEntity));
@@ -40,6 +42,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     }
 
     @Override
+    @Transactional
     public void delete(Employee employee) {
         EmployeeEntity employeeEntity = repository.findById(employee.getId()).orElseThrow(() -> new NotFoundException(EMPLOYEE_NOT_FOUND));
         repository.delete(employeeEntity);

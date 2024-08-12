@@ -7,6 +7,7 @@ import com.anderson.hotel_reservation_system.dataprovider.customer.entity.Custom
 import com.anderson.hotel_reservation_system.dataprovider.customer.repositories.port.SpringCustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     private SpringCustomerRepository repository;
 
     @Override
+    @Transactional
     public Customer save(Customer customer) {
         CustomerEntity customerEntity = toCustomerEntity(customer);
         return toCustomer(repository.save(customerEntity));
@@ -40,12 +42,14 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
     @Override
+    @Transactional
     public void delete(Customer customer) {
         CustomerEntity customerEntity = repository.findById(customer.getId()).orElseThrow(() -> new NotFoundException(CUSTOMER_NOT_FOUND));
         repository.delete(customerEntity);
     }
 
     @Override
+    @Transactional
     public Customer update(Customer customer) {
         CustomerEntity customerEntity = repository.findById(customer.getId()).orElseThrow(() -> new NotFoundException(CUSTOMER_NOT_FOUND));
         customerEntity.setName(customer.getName());
