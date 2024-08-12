@@ -8,6 +8,7 @@ import com.anderson.hotel_reservation_system.dataprovider.room.repositories.port
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -62,5 +63,10 @@ public class RoomRepositoryImpl implements RoomRepository {
     @Override
     public List<Room> findAll() {
         return toRoomList(repository.findAll());
+    }
+
+    @Override
+    public List<Room> findAllAvailableRooms(LocalDate startDate, LocalDate endDate) {
+        return toRoomList(repository.findAllAvailableRooms(startDate, endDate));
     }
 }

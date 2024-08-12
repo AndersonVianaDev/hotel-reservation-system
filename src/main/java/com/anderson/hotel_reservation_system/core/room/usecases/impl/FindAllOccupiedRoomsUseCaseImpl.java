@@ -11,6 +11,7 @@ import java.util.List;
 public class FindAllOccupiedRoomsUseCaseImpl implements FindAllOccupiedRoomsUseCasePort {
 
     private static final Logger log = LoggerFactory.getLogger(FindAllOccupiedRoomsUseCaseImpl.class);
+
     private final RoomRepository repository;
 
     public FindAllOccupiedRoomsUseCaseImpl(RoomRepository repository) {

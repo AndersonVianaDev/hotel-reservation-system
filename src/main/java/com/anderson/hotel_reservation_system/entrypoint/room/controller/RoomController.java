@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,6 +46,9 @@ public class RoomController {
 
     @Autowired
     private FindAllRoomsUseCasePort findAllRooms;
+
+    @Autowired
+    private FindAllAvailableRoomsUseCasePort findAllAvailableRooms;
 
     @PostMapping("/register")
     @Operation(summary = "Register a new room", description = "Register a new room with the provided details.")
@@ -126,6 +130,18 @@ public class RoomController {
         log.info("Get request received for all rooms");
         List<Room> rooms = findAllRooms.execute();
         log.info("Retrieved {} rooms", rooms.size());
+        return ResponseEntity.ok(rooms);
+    }
+
+    @GetMapping("/getAvailable")
+    @Operation(summary = "Get all available rooms", description = "Retrieve a list of all available rooms.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Available rooms retrieved successfully")
+    })
+    public ResponseEntity<List<Room>> getAvailableRooms(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
+        log.info("Get request received for all available rooms");
+        List<Room> rooms = findAllAvailableRooms.execute(startDate, endDate);
+        log.info("Retrieved {} available rooms", rooms.size());
         return ResponseEntity.ok(rooms);
     }
 }

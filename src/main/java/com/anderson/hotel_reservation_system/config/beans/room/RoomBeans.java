@@ -38,4 +38,9 @@ public class RoomBeans {
     public FindAllRoomsUseCasePort findAllRoomsUseCasePort(RoomRepositoryImpl repository) {
         return new FindAllRoomsUseCaseImpl(repository);
     }
+
+    @Bean
+    public FindAllAvailableRoomsUseCasePort findAllAvailableRoomsUseCasePort(RoomRepositoryImpl repository) {
+        return new FindAllAvailableRoomsUseCaseImpl(repository);
+    }
 }
