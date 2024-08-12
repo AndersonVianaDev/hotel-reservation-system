@@ -2,10 +2,8 @@ package com.anderson.hotel_reservation_system.entrypoint.room;
 
 import com.anderson.hotel_reservation_system.core.room.domain.Room;
 import com.anderson.hotel_reservation_system.core.room.dtos.RoomDTO;
-import com.anderson.hotel_reservation_system.dataprovider.room.repositories.impl.RoomRepositoryImpl;
 import com.anderson.hotel_reservation_system.dataprovider.room.repositories.port.SpringRoomRepository;
 import com.anderson.hotel_reservation_system.entrypoint.room.dtos.RoomRequestDTO;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,19 +33,16 @@ public class RegisterRoomTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private RoomRepositoryImpl repository;
-
-    @Autowired
-    private SpringRoomRepository springRepository;
+    private SpringRoomRepository repository;
 
     @BeforeEach
     void setup() {
-        springRepository.deleteAll();
+        repository.deleteAll();
     }
 
     @AfterEach
     void cleanup() {
-        springRepository.deleteAll();
+        repository.deleteAll();
     }
 
     @Test
@@ -66,7 +61,7 @@ public class RegisterRoomTest {
 
         String content = result.getResponse().getContentAsString();
 
-        Room room = mapper.readValue(content, new TypeReference<Room>() {});
+        Room room = mapper.readValue(content, Room.class);
 
         assertEquals(dto.roomNumber(), room.getRoomNumber());
         assertEquals(dto.type(), room.getType());
@@ -77,7 +72,7 @@ public class RegisterRoomTest {
     @DisplayName("data conflict exception")
     void registerWithDataConflict() throws Exception {
         RoomDTO dto = toRoomDTO();
-        repository.save(toRoom1());
+        repository.save(toRoomEntity1());
 
         String dtoString = mapper.writeValueAsString(dto);
 
@@ -91,7 +86,7 @@ public class RegisterRoomTest {
     @Test
     @DisplayName("method argument not valid exception")
     void registerWithMethodArgumentNotValidException() throws Exception {
-        RoomRequestDTO dto = toRoomRequestDTO();
+        RoomRequestDTO dto = toRoomRequestDTOWithMethodArgumentNotValid();
 
         String dtoString = mapper.writeValueAsString(dto);
 

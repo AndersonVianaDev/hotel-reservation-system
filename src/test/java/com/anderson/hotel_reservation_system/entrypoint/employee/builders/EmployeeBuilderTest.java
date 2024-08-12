@@ -1,16 +1,12 @@
 package com.anderson.hotel_reservation_system.entrypoint.employee.builders;
 
-import com.anderson.hotel_reservation_system.core.employee.builder.EmployeeBuilder;
-import com.anderson.hotel_reservation_system.core.employee.domain.Employee;
 import com.anderson.hotel_reservation_system.core.employee.dtos.EmployeeDTO;
 import com.anderson.hotel_reservation_system.core.employee.enums.EmployeeType;
+import com.anderson.hotel_reservation_system.dataprovider.employee.builder.EmployeeEntityBuilder;
 import com.anderson.hotel_reservation_system.dataprovider.employee.entity.EmployeeEntity;
 import com.anderson.hotel_reservation_system.entrypoint.employee.dtos.EmployeeRequestDTO;
 
 import java.util.List;
-import java.util.UUID;
-
-import static com.anderson.hotel_reservation_system.dataprovider.employee.mapper.EmployeeEntityMapper.toEmployeeEntity;
 
 public class EmployeeBuilderTest {
 
@@ -18,8 +14,8 @@ public class EmployeeBuilderTest {
         return new EmployeeDTO("test1", "test1@gmail.com", "test1234", "admin");
     }
 
-    public static Employee toEmployee1() {
-        return new EmployeeBuilder()
+    public static EmployeeEntity toEmployeeEntity1() {
+        return new EmployeeEntityBuilder()
                 .withName("test1")
                 .withEmail("test1@gmail.com")
                 .withPassword("test1234")
@@ -27,8 +23,8 @@ public class EmployeeBuilderTest {
                 .build();
     }
 
-    public static Employee toEmployee2() {
-        return new EmployeeBuilder()
+    public static EmployeeEntity toEmployeeEntity2() {
+        return new EmployeeEntityBuilder()
                 .withName("test2")
                 .withEmail("test2@gmail.com")
                 .withPassword("test1234")
@@ -36,8 +32,8 @@ public class EmployeeBuilderTest {
                 .build();
     }
 
-    public static Employee toEmployee3() {
-        return new EmployeeBuilder()
+    public static EmployeeEntity toEmployeeEntity3() {
+        return new EmployeeEntityBuilder()
                 .withName("test3")
                 .withEmail("test3@gmail.com")
                 .withPassword("test1234")
@@ -46,7 +42,7 @@ public class EmployeeBuilderTest {
     }
 
     public static List<EmployeeEntity> toEmployeesEntity() {
-        return List.of(toEmployeeEntity(toEmployee1()), toEmployeeEntity(toEmployee2()), toEmployeeEntity(toEmployee3()));
+        return List.of(toEmployeeEntity1(), toEmployeeEntity2(), toEmployeeEntity3());
     }
 
     public static EmployeeRequestDTO toEmployeeRequestDTO() {

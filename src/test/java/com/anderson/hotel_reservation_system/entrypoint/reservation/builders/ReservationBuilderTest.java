@@ -1,44 +1,44 @@
 package com.anderson.hotel_reservation_system.entrypoint.reservation.builders;
 
-import com.anderson.hotel_reservation_system.core.customer.domain.Customer;
-import com.anderson.hotel_reservation_system.core.reservation.builder.ReservationBuilder;
-import com.anderson.hotel_reservation_system.core.reservation.domain.Reservation;
 import com.anderson.hotel_reservation_system.core.reservation.enums.ReservationStatus;
-import com.anderson.hotel_reservation_system.core.room.domain.Room;
+import com.anderson.hotel_reservation_system.dataprovider.customer.entity.CustomerEntity;
+import com.anderson.hotel_reservation_system.dataprovider.reservation.builder.ReservationEntityBuilder;
+import com.anderson.hotel_reservation_system.dataprovider.reservation.entity.ReservationEntity;
+import com.anderson.hotel_reservation_system.dataprovider.room.entity.RoomEntity;
 import com.anderson.hotel_reservation_system.entrypoint.reservation.dtos.ReservationRequestDTO;
 
 import java.time.LocalDate;
 
 public class ReservationBuilderTest {
     public static ReservationRequestDTO toReservationRequestDTO() {
-        return new ReservationRequestDTO(LocalDate.of(2030, 7, 24), LocalDate.of(2030, 7, 28));
+        return new ReservationRequestDTO(LocalDate.now(), LocalDate.now().plusDays(4));
     }
 
     public static ReservationRequestDTO toReservationRequestDTOWithInvalidData() {
-        return new ReservationRequestDTO(LocalDate.of(2024, 7, 28), LocalDate.of(2024, 7, 24));
+        return new ReservationRequestDTO(LocalDate.now().plusDays(5), LocalDate.now());
     }
 
-    public static Reservation toReservation(Customer customer, Room room) {
-        return new ReservationBuilder()
+    public static ReservationEntity toReservationEntityTest(CustomerEntity customer, RoomEntity room) {
+        return new ReservationEntityBuilder()
                 .withCustomer(customer)
                 .withRoom(room)
-                .withCheckIn(LocalDate.of(2024, 7, 24))
-                .withCheckOut(LocalDate.of(2024, 7, 28))
+                .withCheckIn(LocalDate.now().plusDays(1))
+                .withCheckOut(LocalDate.now().plusDays(5))
                 .withStatus(ReservationStatus.SCHEDULED)
                 .build();
     }
 
-    public static Reservation toReservationIN_USE(Customer customer, Room room) {
-        return new ReservationBuilder()
+    public static ReservationEntity toReservationIN_USE(CustomerEntity customer, RoomEntity room) {
+        return new ReservationEntityBuilder()
                 .withCustomer(customer)
                 .withRoom(room)
-                .withCheckIn(LocalDate.of(2024, 7, 22))
-                .withCheckOut(LocalDate.of(2024, 7, 28))
+                .withCheckIn(LocalDate.now().minusDays(1))
+                .withCheckOut(LocalDate.now().plusDays(4))
                 .withStatus(ReservationStatus.IN_USE)
                 .build();
     }
 
     public static ReservationRequestDTO toReservationRequestDTOWithMethodArgumentNotValid() {
-        return new ReservationRequestDTO(LocalDate.of(2024,07,23), LocalDate.of(2024, 07, 30));
+        return new ReservationRequestDTO(LocalDate.now().minusDays(5), LocalDate.now());
     }
 }

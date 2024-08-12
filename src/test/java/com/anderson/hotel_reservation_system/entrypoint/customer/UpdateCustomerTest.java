@@ -1,10 +1,8 @@
 package com.anderson.hotel_reservation_system.entrypoint.customer;
 
-import com.anderson.hotel_reservation_system.core.customer.domain.Customer;
 import com.anderson.hotel_reservation_system.core.customer.dtos.CustomerDTO;
-import com.anderson.hotel_reservation_system.dataprovider.customer.repositories.impl.CustomerRepositoryImpl;
+import com.anderson.hotel_reservation_system.dataprovider.customer.entity.CustomerEntity;
 import com.anderson.hotel_reservation_system.dataprovider.customer.repositories.port.SpringCustomerRepository;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.UUID;
 
-import static com.anderson.hotel_reservation_system.entrypoint.customer.builders.CustomerBuilderTest.toCustomer1;
+import static com.anderson.hotel_reservation_system.entrypoint.customer.builders.CustomerBuilderTest.toCustomerEntity1;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -36,26 +34,22 @@ public class UpdateCustomerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    public CustomerRepositoryImpl repository;
-
-    @Autowired
-    public SpringCustomerRepository springRepository;
+    public SpringCustomerRepository repository;
 
     @BeforeEach
     void setup() {
-        springRepository.deleteAll();
+        repository.deleteAll();
     }
 
     @AfterEach
     void cleanup() {
-        springRepository.deleteAll();
+        repository.deleteAll();
     }
 
     @Test
     @DisplayName("successfully updating customer")
     void update() throws Exception {
-        Customer savedCustomer = repository.save(toCustomer1());
-        UUID id = savedCustomer.getId();
+        UUID id = repository.save(toCustomerEntity1()).getId();
         CustomerDTO dto = new CustomerDTO("updated", "update@gmail.com", "6543213545");
 
         String dtoString = mapper.writeValueAsString(dto);
@@ -69,7 +63,7 @@ public class UpdateCustomerTest {
 
         String content = result.getResponse().getContentAsString();
 
-        Customer updatedCustomer = mapper.readValue(content, new TypeReference<Customer>() {});
+        CustomerEntity updatedCustomer = mapper.readValue(content, CustomerEntity.class);
 
         assertEquals(dto.name(), updatedCustomer.getName());
         assertEquals(dto.email(), updatedCustomer.getEmail());

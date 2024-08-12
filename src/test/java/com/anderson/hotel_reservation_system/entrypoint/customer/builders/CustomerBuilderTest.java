@@ -3,12 +3,11 @@ package com.anderson.hotel_reservation_system.entrypoint.customer.builders;
 import com.anderson.hotel_reservation_system.core.customer.builder.CustomerBuilder;
 import com.anderson.hotel_reservation_system.core.customer.domain.Customer;
 import com.anderson.hotel_reservation_system.core.customer.dtos.CustomerDTO;
+import com.anderson.hotel_reservation_system.dataprovider.customer.builder.CustomerEntityBuilder;
 import com.anderson.hotel_reservation_system.dataprovider.customer.entity.CustomerEntity;
 import com.anderson.hotel_reservation_system.entrypoint.customer.dtos.CustomerRequestDTO;
 
 import java.util.List;
-
-import static com.anderson.hotel_reservation_system.dataprovider.customer.mapper.CustomerEntityMapper.toCustomerEntity;
 
 public class CustomerBuilderTest {
 
@@ -16,24 +15,24 @@ public class CustomerBuilderTest {
         return new CustomerDTO("dto1", "test1@gmail.com", "999999999");
     }
 
-    public static Customer toCustomer1() {
-        return new CustomerBuilder()
+    public static CustomerEntity toCustomerEntity1() {
+        return new CustomerEntityBuilder()
                 .withName("test1")
                 .withEmail("test1@gmail.com")
                 .withPhone("999999999")
                 .build();
     }
 
-    public static Customer toCustomer2() {
-        return new CustomerBuilder()
+    public static CustomerEntity toCustomerEntity2() {
+        return new CustomerEntityBuilder()
                 .withName("test2")
                 .withEmail("test2@gmail.com")
                 .withPhone("888888888")
                 .build();
     }
 
-    public static Customer toCustomer3() {
-        return new CustomerBuilder()
+    public static CustomerEntity toCustomerEntity3() {
+        return new CustomerEntityBuilder()
                 .withName("test3")
                 .withEmail("test3@gmail.com")
                 .withPhone("777777777")
@@ -41,7 +40,7 @@ public class CustomerBuilderTest {
     }
 
     public static List<CustomerEntity> toCustomersEntity() {
-        return List.of(toCustomerEntity(toCustomer1()), toCustomerEntity(toCustomer2()), toCustomerEntity(toCustomer3()));
+        return List.of(toCustomerEntity1(), toCustomerEntity2(), toCustomerEntity3());
     }
 
     public static CustomerRequestDTO toCustomerRequestDTO() {

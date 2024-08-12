@@ -1,10 +1,7 @@
 package com.anderson.hotel_reservation_system.entrypoint.employee;
 
-import com.anderson.hotel_reservation_system.core.employee.domain.Employee;
-import com.anderson.hotel_reservation_system.dataprovider.employee.dataprovider.repositories.impl.EmployeeRepositoryImpl;
 import com.anderson.hotel_reservation_system.dataprovider.employee.dataprovider.repositories.port.SpringEmployeeRepository;
 import com.anderson.hotel_reservation_system.entrypoint.employee.dtos.EmployeeResponseDTO;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.UUID;
 
-import static com.anderson.hotel_reservation_system.entrypoint.employee.builders.EmployeeBuilderTest.toEmployee1;
+import static com.anderson.hotel_reservation_system.entrypoint.employee.builders.EmployeeBuilderTest.toEmployeeEntity1;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -35,25 +32,22 @@ public class FindEmployeeByIdTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private EmployeeRepositoryImpl repository;
-
-    @Autowired
-    private SpringEmployeeRepository springRepository;
+    private SpringEmployeeRepository repository;
 
     @BeforeEach
     void setup() {
-        springRepository.deleteAll();
+        repository.deleteAll();
     }
 
     @AfterEach
     void cleanup() {
-        springRepository.deleteAll();
+        repository.deleteAll();
     }
 
     @Test
     @DisplayName("find employee by id successfully")
     void findById() throws Exception {
-        UUID id = repository.save(toEmployee1()).getId();
+        UUID id = repository.save(toEmployeeEntity1()).getId();
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/employee/get/" + id))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -62,8 +56,7 @@ public class FindEmployeeByIdTest {
 
         String content = result.getResponse().getContentAsString();
 
-        EmployeeResponseDTO responseDTO = mapper.readValue(content, new TypeReference<EmployeeResponseDTO>() {
-        });
+        EmployeeResponseDTO responseDTO = mapper.readValue(content, EmployeeResponseDTO.class);
 
         assertEquals(id, responseDTO.id());
     }

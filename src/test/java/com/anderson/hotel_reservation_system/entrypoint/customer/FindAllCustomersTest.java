@@ -1,6 +1,6 @@
 package com.anderson.hotel_reservation_system.entrypoint.customer;
 
-import com.anderson.hotel_reservation_system.core.customer.domain.Customer;
+import com.anderson.hotel_reservation_system.dataprovider.customer.entity.CustomerEntity;
 import com.anderson.hotel_reservation_system.dataprovider.customer.repositories.port.SpringCustomerRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,22 +33,22 @@ public class FindAllCustomersTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private SpringCustomerRepository springRepository;
+    private SpringCustomerRepository repository;
 
     @BeforeEach
     void setup() {
-        springRepository.deleteAll();
+        repository.deleteAll();
     }
 
     @AfterEach
     void cleanup() {
-        springRepository.deleteAll();
+        repository.deleteAll();
     }
 
     @Test
     @DisplayName("successfully find all customers")
     void findAll() throws Exception {
-        springRepository.saveAll(toCustomersEntity());
+        repository.saveAll(toCustomersEntity());
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/customer/getAll"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -57,7 +57,7 @@ public class FindAllCustomersTest {
 
         String content = result.getResponse().getContentAsString();
 
-        List<Customer> customers = mapper.readValue(content, new TypeReference<List<Customer>>() {});
+        List<CustomerEntity> customers = mapper.readValue(content, new TypeReference<List<CustomerEntity>>() {});
 
         assertEquals(toCustomersEntity().size(), customers.size());
     }

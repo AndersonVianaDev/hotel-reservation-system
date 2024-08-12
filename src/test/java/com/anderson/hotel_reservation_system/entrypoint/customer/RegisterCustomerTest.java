@@ -1,11 +1,9 @@
 package com.anderson.hotel_reservation_system.entrypoint.customer;
 
-import com.anderson.hotel_reservation_system.core.customer.domain.Customer;
 import com.anderson.hotel_reservation_system.core.customer.dtos.CustomerDTO;
-import com.anderson.hotel_reservation_system.dataprovider.customer.repositories.impl.CustomerRepositoryImpl;
+import com.anderson.hotel_reservation_system.dataprovider.customer.entity.CustomerEntity;
 import com.anderson.hotel_reservation_system.dataprovider.customer.repositories.port.SpringCustomerRepository;
 import com.anderson.hotel_reservation_system.entrypoint.customer.dtos.CustomerRequestDTO;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,19 +33,16 @@ public class RegisterCustomerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    public CustomerRepositoryImpl repository;
-
-    @Autowired
-    public SpringCustomerRepository springRepository;
+    public SpringCustomerRepository repository;
 
     @BeforeEach
     void setup() {
-        springRepository.deleteAll();
+        repository.deleteAll();
     }
 
     @AfterEach
     void cleanup() {
-        springRepository.deleteAll();
+        repository.deleteAll();
     }
 
     @Test
@@ -66,7 +61,7 @@ public class RegisterCustomerTest {
 
         String content = result.getResponse().getContentAsString();
 
-        Customer customer = mapper.readValue(content, new TypeReference<Customer>() {});
+        CustomerEntity customer = mapper.readValue(content, CustomerEntity.class);
 
         assertEquals(dto.name(), customer.getName());
         assertEquals(dto.email(), customer.getEmail());
@@ -76,7 +71,7 @@ public class RegisterCustomerTest {
     @Test
     @DisplayName("data conflict exception")
     void registerWithDataConflict() throws Exception {
-        Customer customer = toCustomer1();
+        CustomerEntity customer = toCustomerEntity1();
         repository.save(customer);
 
         CustomerDTO dto = toCustomerDTO();

@@ -1,7 +1,6 @@
 package com.anderson.hotel_reservation_system.entrypoint.room;
 
-import com.anderson.hotel_reservation_system.core.room.domain.Room;
-import com.anderson.hotel_reservation_system.dataprovider.room.repositories.impl.RoomRepositoryImpl;
+import com.anderson.hotel_reservation_system.dataprovider.room.entity.RoomEntity;
 import com.anderson.hotel_reservation_system.dataprovider.room.repositories.port.SpringRoomRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,25 +33,22 @@ public class FindAllRoomsTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private RoomRepositoryImpl repository;
-
-    @Autowired
-    private SpringRoomRepository springRepository;
+    private SpringRoomRepository repository;
 
     @BeforeEach
     void setup() {
-        springRepository.deleteAll();
+        repository.deleteAll();
     }
 
     @AfterEach
     void cleanup() {
-        springRepository.deleteAll();
+        repository.deleteAll();
     }
 
     @Test
     @DisplayName("find all rooms successfully")
     void findAll() throws Exception {
-        springRepository.saveAll(toRoomsEntity());
+        repository.saveAll(toRoomsEntity());
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/room/getAll"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -61,7 +57,7 @@ public class FindAllRoomsTest {
 
         String content = result.getResponse().getContentAsString();
 
-        List<Room> rooms = mapper.readValue(content, new TypeReference<List<Room>>() {});
+        List<RoomEntity> rooms = mapper.readValue(content, new TypeReference<List<RoomEntity>>() {});
 
         assertEquals(rooms.size(), toRoomsEntity().size());
     }

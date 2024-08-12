@@ -1,8 +1,7 @@
 package com.anderson.hotel_reservation_system.entrypoint.room;
 
-import com.anderson.hotel_reservation_system.core.room.domain.Room;
 import com.anderson.hotel_reservation_system.core.room.dtos.RoomDTO;
-import com.anderson.hotel_reservation_system.dataprovider.room.repositories.impl.RoomRepositoryImpl;
+import com.anderson.hotel_reservation_system.dataprovider.room.entity.RoomEntity;
 import com.anderson.hotel_reservation_system.dataprovider.room.repositories.port.SpringRoomRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,8 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.UUID;
 
-import static com.anderson.hotel_reservation_system.entrypoint.room.builders.RoomBuilderTest.toRoomDTO;
-import static com.anderson.hotel_reservation_system.entrypoint.room.builders.RoomBuilderTest.toRoom2;
+import static com.anderson.hotel_reservation_system.entrypoint.room.builders.RoomBuilderTest.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -37,25 +35,22 @@ public class UpdateRoomTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private RoomRepositoryImpl repository;
-    @Autowired
-    private SpringRoomRepository springRepository;
+    private SpringRoomRepository repository;
 
     @BeforeEach
     void setup() {
-        springRepository.deleteAll();
+        repository.deleteAll();
     }
 
     @AfterEach
     void cleanup() {
-        springRepository.deleteAll();
+        repository.deleteAll();
     }
 
     @Test
     @DisplayName("updating the room successfully")
     void update() throws Exception {
-        Room savedRoom = repository.save(toRoom2());
-        UUID id = savedRoom.getId();
+        UUID id = repository.save(toRoomEntity2()).getId();
         RoomDTO dto = toRoomDTO();
 
         String dtoString = mapper.writeValueAsString(dto);
@@ -69,7 +64,7 @@ public class UpdateRoomTest {
 
         String content = result.getResponse().getContentAsString();
 
-        Room room = mapper.readValue(content, new TypeReference<Room>() {});
+        RoomEntity room = mapper.readValue(content, RoomEntity.class);
 
         assertEquals(dto.roomNumber(), room.getRoomNumber());
         assertEquals(dto.type(), room.getType());

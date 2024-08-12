@@ -1,16 +1,12 @@
 package com.anderson.hotel_reservation_system.entrypoint.reservation;
 
-import com.anderson.hotel_reservation_system.core.customer.domain.Customer;
-import com.anderson.hotel_reservation_system.core.reservation.domain.Reservation;
-import com.anderson.hotel_reservation_system.core.room.domain.Room;
-import com.anderson.hotel_reservation_system.dataprovider.customer.repositories.impl.CustomerRepositoryImpl;
+import com.anderson.hotel_reservation_system.dataprovider.customer.entity.CustomerEntity;
 import com.anderson.hotel_reservation_system.dataprovider.customer.repositories.port.SpringCustomerRepository;
-import com.anderson.hotel_reservation_system.dataprovider.reservation.repositories.impl.ReservationRepositoryImpl;
+import com.anderson.hotel_reservation_system.dataprovider.reservation.entity.ReservationEntity;
 import com.anderson.hotel_reservation_system.dataprovider.reservation.repositories.port.SpringReservationRepository;
-import com.anderson.hotel_reservation_system.dataprovider.room.repositories.impl.RoomRepositoryImpl;
+import com.anderson.hotel_reservation_system.dataprovider.room.entity.RoomEntity;
 import com.anderson.hotel_reservation_system.dataprovider.room.repositories.port.SpringRoomRepository;
 import com.anderson.hotel_reservation_system.entrypoint.reservation.dtos.ReservationRequestDTO;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,9 +24,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.UUID;
 
-import static com.anderson.hotel_reservation_system.entrypoint.customer.builders.CustomerBuilderTest.toCustomer1;
+import static com.anderson.hotel_reservation_system.entrypoint.customer.builders.CustomerBuilderTest.toCustomerEntity1;
 import static com.anderson.hotel_reservation_system.entrypoint.reservation.builders.ReservationBuilderTest.*;
-import static com.anderson.hotel_reservation_system.entrypoint.room.builders.RoomBuilderTest.toRoom1;
+import static com.anderson.hotel_reservation_system.entrypoint.room.builders.RoomBuilderTest.toRoomEntity1;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -44,43 +40,34 @@ public class RegisterReservationTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private ReservationRepositoryImpl repository;
+    private SpringReservationRepository reservationRepository;
 
     @Autowired
-    private RoomRepositoryImpl roomRepository;
+    private SpringCustomerRepository customerRepository;
 
     @Autowired
-    private CustomerRepositoryImpl customerRepository;
-
-    @Autowired
-    private SpringReservationRepository springRepository;
-
-    @Autowired
-    private SpringCustomerRepository springCustomerRepository;
-
-    @Autowired
-    private SpringRoomRepository springRoomRepository;
+    private SpringRoomRepository roomRepository;
 
     @BeforeEach
     void setup() {
-        springRepository.deleteAll();
-        springCustomerRepository.deleteAll();
-        springRoomRepository.deleteAll();
+        reservationRepository.deleteAll();
+        customerRepository.deleteAll();
+        roomRepository.deleteAll();
     }
 
     @AfterEach
     void cleanup() {
-        springRepository.deleteAll();
-        springCustomerRepository.deleteAll();
-        springRoomRepository.deleteAll();
+        reservationRepository.deleteAll();
+        customerRepository.deleteAll();
+        roomRepository.deleteAll();
     }
 
     @Test
     @DisplayName("Register reservation successfully")
     void register() throws Exception {
-        Room room = roomRepository.save(toRoom1());
+        RoomEntity room = roomRepository.save(toRoomEntity1());
         UUID idRoom = room.getId();
-        Customer customer = customerRepository.save(toCustomer1());
+        CustomerEntity customer = customerRepository.save(toCustomerEntity1());
         UUID idCustomer = customer.getId();
         ReservationRequestDTO dto = toReservationRequestDTO();
 
@@ -95,7 +82,7 @@ public class RegisterReservationTest {
 
         String content = result.getResponse().getContentAsString();
 
-        Reservation reservation = mapper.readValue(content, new TypeReference<Reservation>() {});
+        ReservationEntity reservation = mapper.readValue(content, ReservationEntity.class);
 
         assertEquals(room, reservation.getRoom());
         assertEquals(customer, reservation.getCustomer());

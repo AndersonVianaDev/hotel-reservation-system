@@ -1,6 +1,5 @@
 package com.anderson.hotel_reservation_system.entrypoint.employee;
 
-import com.anderson.hotel_reservation_system.dataprovider.employee.dataprovider.repositories.impl.EmployeeRepositoryImpl;
 import com.anderson.hotel_reservation_system.dataprovider.employee.dataprovider.repositories.port.SpringEmployeeRepository;
 import com.anderson.hotel_reservation_system.entrypoint.employee.dtos.EmployeeResponseDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -34,25 +33,22 @@ public class FindAllEmployeesTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private EmployeeRepositoryImpl repository;
-
-    @Autowired
-    private SpringEmployeeRepository springRepository;
+    private SpringEmployeeRepository repository;
 
     @BeforeEach
     void setup() {
-        springRepository.deleteAll();
+        repository.deleteAll();
     }
 
     @AfterEach
     void cleanup() {
-        springRepository.deleteAll();
+        repository.deleteAll();
     }
 
     @Test
     @DisplayName("find all employees successfully")
     void findAll() throws Exception {
-        springRepository.saveAll(toEmployeesEntity());
+        repository.saveAll(toEmployeesEntity());
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/employee/getAll"))
                 .andExpect(MockMvcResultMatchers.status().isOk())

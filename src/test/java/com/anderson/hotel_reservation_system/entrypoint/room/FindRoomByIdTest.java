@@ -1,9 +1,7 @@
 package com.anderson.hotel_reservation_system.entrypoint.room;
 
-import com.anderson.hotel_reservation_system.core.room.domain.Room;
-import com.anderson.hotel_reservation_system.dataprovider.room.repositories.impl.RoomRepositoryImpl;
+import com.anderson.hotel_reservation_system.dataprovider.room.entity.RoomEntity;
 import com.anderson.hotel_reservation_system.dataprovider.room.repositories.port.SpringRoomRepository;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.UUID;
 
-import static com.anderson.hotel_reservation_system.entrypoint.room.builders.RoomBuilderTest.toRoom1;
+import static com.anderson.hotel_reservation_system.entrypoint.room.builders.RoomBuilderTest.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -34,25 +32,22 @@ public class FindRoomByIdTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private RoomRepositoryImpl repository;
-
-    @Autowired
-    private SpringRoomRepository springRepository;
+    private SpringRoomRepository repository;
 
     @BeforeEach
     void setup() {
-        springRepository.deleteAll();
+        repository.deleteAll();
     }
 
     @AfterEach
     void cleanup() {
-        springRepository.deleteAll();
+        repository.deleteAll();
     }
 
     @Test
     @DisplayName("find room by id successfully")
     void findById() throws Exception {
-        Room savedRoom = repository.save(toRoom1());
+        RoomEntity savedRoom = repository.save(toRoomEntity1());
         UUID id = savedRoom.getId();
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/room/get/" + id))
@@ -62,7 +57,7 @@ public class FindRoomByIdTest {
 
         String content = result.getResponse().getContentAsString();
 
-        Room room = mapper.readValue(content, new TypeReference<Room>() {});
+        RoomEntity room = mapper.readValue(content, RoomEntity.class);
 
         assertEquals(savedRoom, room);
     }

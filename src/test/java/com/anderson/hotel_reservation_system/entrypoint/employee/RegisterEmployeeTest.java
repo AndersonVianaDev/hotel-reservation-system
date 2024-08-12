@@ -1,11 +1,9 @@
 package com.anderson.hotel_reservation_system.entrypoint.employee;
 
 import com.anderson.hotel_reservation_system.core.employee.dtos.EmployeeDTO;
-import com.anderson.hotel_reservation_system.dataprovider.employee.dataprovider.repositories.impl.EmployeeRepositoryImpl;
 import com.anderson.hotel_reservation_system.dataprovider.employee.dataprovider.repositories.port.SpringEmployeeRepository;
 import com.anderson.hotel_reservation_system.entrypoint.employee.dtos.EmployeeRequestDTO;
 import com.anderson.hotel_reservation_system.entrypoint.employee.dtos.EmployeeResponseDTO;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,19 +33,16 @@ public class RegisterEmployeeTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private EmployeeRepositoryImpl repository;
-
-    @Autowired
-    private SpringEmployeeRepository springRepository;
+    private SpringEmployeeRepository repository;
 
     @BeforeEach
     void setup() {
-        springRepository.deleteAll();
+        repository.deleteAll();
     }
 
     @AfterEach
     void cleanup() {
-        springRepository.deleteAll();
+        repository.deleteAll();
     }
 
     @Test
@@ -65,7 +60,7 @@ public class RegisterEmployeeTest {
 
         String content = result.getResponse().getContentAsString();
 
-        EmployeeResponseDTO employee = mapper.readValue(content, new TypeReference<EmployeeResponseDTO>() {});
+        EmployeeResponseDTO employee = mapper.readValue(content, EmployeeResponseDTO.class);
 
         assertEquals(dto.name(), employee.name());
         assertEquals(dto.email(), employee.email());
@@ -74,7 +69,7 @@ public class RegisterEmployeeTest {
     @Test
     @DisplayName("data conflict exception")
     void registerWithDataConflict() throws Exception {
-        repository.save(toEmployee1());
+        repository.save(toEmployeeEntity1());
 
         EmployeeDTO dto = toEmployeeDTO();
         String dtoString = mapper.writeValueAsString(dto);

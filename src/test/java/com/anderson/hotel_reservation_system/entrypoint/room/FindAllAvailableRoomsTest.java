@@ -1,6 +1,5 @@
 package com.anderson.hotel_reservation_system.entrypoint.room;
 
-import com.anderson.hotel_reservation_system.core.room.domain.Room;
 import com.anderson.hotel_reservation_system.dataprovider.customer.entity.CustomerEntity;
 import com.anderson.hotel_reservation_system.dataprovider.customer.repositories.port.SpringCustomerRepository;
 import com.anderson.hotel_reservation_system.dataprovider.reservation.repositories.port.SpringReservationRepository;
@@ -21,19 +20,17 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.anderson.hotel_reservation_system.entrypoint.customer.builders.CustomerBuilderTest.*;
-import static com.anderson.hotel_reservation_system.entrypoint.reservation.builders.ReservationBuilderTest.*;
+import static com.anderson.hotel_reservation_system.entrypoint.reservation.builders.ReservationBuilderTest.toReservationEntityTest;
 import static com.anderson.hotel_reservation_system.entrypoint.room.builders.RoomBuilderTest.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
-public class FindAllOccupiedRoomsTest {
-
-    @Autowired
-    private ObjectMapper mapper;
+public class FindAllAvailableRoomsTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -42,10 +39,13 @@ public class FindAllOccupiedRoomsTest {
     private SpringRoomRepository roomRepository;
 
     @Autowired
+    private SpringReservationRepository reservationRepository;
+
+    @Autowired
     private SpringCustomerRepository customerRepository;
 
     @Autowired
-    private SpringReservationRepository reservationRepository;
+    private ObjectMapper mapper;
 
     @BeforeEach
     void setup() {
@@ -62,24 +62,28 @@ public class FindAllOccupiedRoomsTest {
     }
 
     @Test
-    @DisplayName("find all occupied rooms successfully")
-    void findAllOccupied() throws Exception {
+    @DisplayName("find all available rooms successfully")
+    void findAllAvailable() throws Exception {
         RoomEntity room1 = roomRepository.save(toRoomEntity1());
         RoomEntity room2 = roomRepository.save(toRoomEntity2());
+        RoomEntity room3 = roomRepository.save(toRoomEntity3());
         CustomerEntity customer1 = customerRepository.save(toCustomerEntity1());
         CustomerEntity customer2 = customerRepository.save(toCustomerEntity2());
-        reservationRepository.save(toReservationIN_USE(customer1, room1));
-        reservationRepository.save(toReservationEntityTest(customer2, room2));
+        LocalDate startDate = reservationRepository.save(toReservationEntityTest(customer1, room1)).getCheckIn();
+        LocalDate endDate = reservationRepository.save(toReservationEntityTest(customer2, room2)).getCheckOut();
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/room/getOccupied"))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/room/getAvailable")
+                .param("startDate", String.valueOf(startDate))
+                .param("endDate", String.valueOf(endDate)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
 
         String content = result.getResponse().getContentAsString();
 
-        List<Room> rooms = mapper.readValue(content, new TypeReference<List<Room>>() {});
+        List<RoomEntity> rooms = mapper.readValue(content, new TypeReference<List<RoomEntity>>() {});
 
         assertEquals(1, rooms.size());
+        assertEquals(room3.getId(), rooms.get(0).getId());
     }
 }
