@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.anderson.hotel_reservation_system.entrypoint.customer.builders.CustomerBuilderTest.toCustomerEntity1;
@@ -66,11 +67,13 @@ public class FindAllReservationsByDateRangeTest {
     void findAll() throws Exception {
         RoomEntity room = roomRepository.save(toRoomEntity1());
         CustomerEntity customer = customerRepository.save(toCustomerEntity1());
-        reservationRepository.save(toReservationEntityTest(customer, room));
+        ReservationEntity reservation = reservationRepository.save(toReservationEntityTest(customer, room));
+        LocalDate startDate = reservation.getCheckIn();
+        LocalDate endDate = reservation.getCheckOut();
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/reservation/get")
-                        .param("startDate", "2024-07-20")
-                        .param("endDate", "2024-07-30"))
+                        .param("startDate", startDate.toString())
+                        .param("endDate", endDate.toString()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
