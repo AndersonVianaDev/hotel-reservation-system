@@ -117,4 +117,24 @@ public class RegisterReservationTest {
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andDo(MockMvcResultHandlers.print());
     }
+
+    @Test
+    @DisplayName("data conflict exception")
+    void registerWithDataConflictException() throws Exception {
+        RoomEntity room = roomRepository.save(toRoomEntity1());
+        CustomerEntity customer = customerRepository.save(toCustomerEntity1());
+        UUID idRoom = room.getId();
+        UUID idCustomer = customer.getId();
+
+        reservationRepository.save(toReservationEntityTest(customer, room));
+        ReservationRequestDTO dto = toReservationRequestDTO();
+
+        String dtoString = mapper.writeValueAsString(dto);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/reservation/register/" + idCustomer + "/" + idRoom)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(dtoString))
+                .andExpect(MockMvcResultMatchers.status().isConflict())
+                .andDo(MockMvcResultHandlers.print());
+    }
 }

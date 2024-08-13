@@ -2,6 +2,7 @@ package com.anderson.hotel_reservation_system.core.reservation.usecases.impl;
 
 import com.anderson.hotel_reservation_system.core.customer.domain.Customer;
 import com.anderson.hotel_reservation_system.core.customer.usecases.ports.FindCustomerByIdUseCasePort;
+import com.anderson.hotel_reservation_system.core.exceptions.DataConflictException;
 import com.anderson.hotel_reservation_system.core.exceptions.InvalidDataException;
 import com.anderson.hotel_reservation_system.core.reservation.dataprovider.ReservationRepository;
 import com.anderson.hotel_reservation_system.core.reservation.domain.Reservation;
@@ -16,10 +17,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.anderson.hotel_reservation_system.core.customer.builder.CustomerBuilderTest.toCustomer;
 import static com.anderson.hotel_reservation_system.core.exceptions.constants.ExceptionConstants.CHECK_OUT_BEFORE_CHECK_IN;
+import static com.anderson.hotel_reservation_system.core.exceptions.constants.ExceptionConstants.RESERVATION_CONFLICT;
+import static com.anderson.hotel_reservation_system.core.reservation.builder.ReservationBuilderTest.toReservation;
 import static com.anderson.hotel_reservation_system.core.reservation.builder.ReservationBuilderTest.toReservationDTO;
 import static com.anderson.hotel_reservation_system.core.room.builder.RoomBuilderTest.toRoom;
 import static org.junit.jupiter.api.Assertions.*;
@@ -71,5 +75,26 @@ class RegisterReservationUseCaseImplTest {
         InvalidDataException exception = assertThrows(InvalidDataException.class, () -> useCase.execute(reservationDTO));
 
         assertEquals(CHECK_OUT_BEFORE_CHECK_IN, exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("data conflict exception")
+    void executeWithDataConflictException() {
+        Customer customer = toCustomer();
+        Room room = toRoom();
+        Reservation reservation = toReservation();
+        ReservationDTO reservationDTO = new ReservationDTO(customer.getId(),
+                room.getId(),
+                reservation.getCheckIn(),
+                reservation.getCheckOut());
+
+        when(findCustomerById.execute(reservationDTO.idCustomer())).thenReturn(customer);
+        when(findRoomById.execute(reservationDTO.idRoom())).thenReturn(room);
+        when(repository.findReservationByRoomIdAndReservationDate(reservationDTO.idRoom(), reservationDTO.checkIn(), reservationDTO.checkOut()))
+                .thenReturn(Optional.of(reservation));
+
+        DataConflictException exception = assertThrows(DataConflictException.class, () -> useCase.execute(reservationDTO));
+
+        assertEquals(RESERVATION_CONFLICT, exception.getMessage());
     }
 }

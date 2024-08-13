@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 public class ReservationBuilderTest {
     public static ReservationRequestDTO toReservationRequestDTO() {
-        return new ReservationRequestDTO(LocalDate.now(), LocalDate.now().plusDays(4));
+        return new ReservationRequestDTO(LocalDate.now().plusDays(1), LocalDate.now().plusDays(5));
     }
 
     public static ReservationRequestDTO toReservationRequestDTOWithInvalidData() {
