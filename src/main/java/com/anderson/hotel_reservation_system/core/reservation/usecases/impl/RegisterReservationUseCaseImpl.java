@@ -2,6 +2,7 @@ package com.anderson.hotel_reservation_system.core.reservation.usecases.impl;
 
 import com.anderson.hotel_reservation_system.core.customer.domain.Customer;
 import com.anderson.hotel_reservation_system.core.customer.usecases.ports.FindCustomerByIdUseCasePort;
+import com.anderson.hotel_reservation_system.core.exceptions.DataConflictException;
 import com.anderson.hotel_reservation_system.core.exceptions.InvalidDataException;
 import com.anderson.hotel_reservation_system.core.reservation.dataprovider.ReservationRepository;
 import com.anderson.hotel_reservation_system.core.reservation.domain.Reservation;
@@ -13,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static com.anderson.hotel_reservation_system.core.exceptions.constants.ExceptionConstants.CHECK_OUT_BEFORE_CHECK_IN;
+import static com.anderson.hotel_reservation_system.core.exceptions.constants.ExceptionConstants.RESERVATION_CONFLICT;
 import static com.anderson.hotel_reservation_system.core.reservation.mapper.ReservationMapper.toReservation;
 
 public class RegisterReservationUseCaseImpl implements RegisterReservationUseCasePort {
@@ -41,6 +43,10 @@ public class RegisterReservationUseCaseImpl implements RegisterReservationUseCas
 
         log.debug("Retrieving room with id: {}", dto.idRoom());
         Room room = findRoomById.execute(dto.idRoom());
+
+        if(repository.findReservationByRoomIdAndReservationDate(room.getId(), dto.checkIn(), dto.checkOut()).isPresent()) {
+            throw new DataConflictException(RESERVATION_CONFLICT);
+        }
 
         Reservation reservation = toReservation(dto, customer, room);
 

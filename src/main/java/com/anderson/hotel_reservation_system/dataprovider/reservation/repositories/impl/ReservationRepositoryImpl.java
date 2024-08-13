@@ -70,4 +70,9 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     public List<Reservation> findAll() {
         return toReservationList(repository.findAll());
     }
+
+    @Override
+    public Optional<Reservation> findReservationByRoomIdAndReservationDate(UUID id, LocalDate startDate, LocalDate endDate) {
+        return toOptionalReservation(repository.findReservationByRoomIdAndReservationDate(id, startDate, endDate));
+    }
 }

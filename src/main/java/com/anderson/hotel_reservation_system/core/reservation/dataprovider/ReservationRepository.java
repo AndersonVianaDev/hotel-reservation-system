@@ -13,4 +13,5 @@ public interface ReservationRepository {
     List<Reservation> findAllByDateRange(LocalDate startDate, LocalDate endDate);
     Reservation update(Reservation reservation);
     List<Reservation> findAll();
+    Optional<Reservation> findReservationByRoomIdAndReservationDate(UUID id, LocalDate startDate, LocalDate endDate);
 }

@@ -16,4 +16,5 @@ public class ExceptionConstants {
     public static final String AUTHENTICATION_FAILED = "authentication failed. Please check your credentials and try again.";
     public static final String INTERNAL_SERVER_ERROR = "internal server error, try later.";
     public static final String FORBIDDEN = "access denied.";
+    public static final String RESERVATION_CONFLICT = "there is already a reservation for this room in the specified date range.";
 }
